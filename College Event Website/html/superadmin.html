@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>College Event Website | Super Admin Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../images/favicon1.ico" rel="icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../vendor/modal-video/css/modal-video.min.css" rel="stylesheet">
+  <link href="../vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- CSS File -->
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Side Bar-->
+  <div id="mySidenav" class="sidenav">
+    <div id="logo">
+      <a href="../index.html"><img src="../images/logo.png" alt="" title="" /></a>
+    </div>
+    <div id="sidebar-active"><a href="superadmin.html">Dashboard</a></div>
+    <a href="createuni.html">Create University Profile</a>
+    <a href="createevent.html">Create Event</a>
+    <a href="pendingevent.html">Check Pending Events</a>
+    <a href="checkevents.html">Check Current Events</a>
+    <a href="../index.html">Log Out</a>
+  </div>
+  <!-- End Side Bar-->
+
+  <!-- ======= Super Admin Dashboard Section ======= -->
+  <section id="superadmin" class="padd-section text-center">
+
+    <div class="container">
+      <h1>Dashboard</h1>
+      <h4 id="superUser"></h4>
+
+      <div class="row">
+
+        <div class="col-md-6 col-lg-3">
+          <div class="block-superadmin">
+            <div class="table">
+              <h2>Create New University Profile</h2>
+              <div class="table_btn">
+                <a href="createuni.html" class="btn"></i>Create</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="block-superadmin">
+            <div class="table">
+              <h2>Create New Event</h2>
+              <div class="table_btn">
+                <a href="createevent.html" class="btn">Create</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="block-superadmin">
+            <div class="table">
+              <h2>Check Pending Events</h2>
+              <div class="table_btn">
+                <a href="pendingevent.html" class="btn">Check</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="block-superadmin">
+            <div class="table">
+              <h2>Check Current Events</h2>
+              <div class="table_btn">
+                <a href="checkevents.html" class="btn">Check</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ======= End Super Admin Dashboard======= -->
+
+  <!-- Vendor JS Files -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="../vendor/php-email-form/validate.js"></script>
+  <script src="../vendor/modal-video/js/modal-video.min.js"></script>
+  <script src="../vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="../vendor/superfish/superfish.min.js"></script>
+  <script src="../vendor/hoverIntent/hoverIntent.js"></script>
+  <script src="../vendor/aos/aos.js"></script>
+
+  <!-- JavaScript File -->
+  <script src="../javascript/main.js"></script>
+
+  <!-- DATA JAVASCRIPT-->
+  <script>
+    jcontent4 = {
+      "firstName": "Super",
+      "lastName": "Admin"
+    }
+
+    var student = document.getElementById("superUser");
+    student.innerText = "Welcome " + jcontent4.firstName + " " + jcontent4.lastName;
+  </script>
+  <!-- End DATA JAVASCRIPT-->
+
+</body>
+
+</html>
