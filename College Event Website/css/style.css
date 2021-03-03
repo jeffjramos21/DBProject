@@ -17,7 +17,7 @@ h2 {
 }
 
 h4 {
-  color: #000;
+  color: #505050;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -75,23 +75,6 @@ span {
 .container-full {
   padding-left: 0;
   padding-right: 0;
-}
-
-.btn {
-  border: 1px solid #fff;
-  border-radius: 50px;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 15px 40px;
-  text-transform: uppercase;
-  transition: all 0.5s ease-in-out 0s;
-}
-
-.btn-default:hover {
-  color: #fff;
-  background-color: #e6e6e6;
-  border-color: #adadad;
 }
 
 .fa {
@@ -203,11 +186,9 @@ span {
   color: black;
 }
 
-
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
-/* Nav Menu Essentials */
 .nav-menu, .nav-menu * {
   margin: 0;
   padding: 0;
@@ -245,12 +226,10 @@ span {
   min-width: 180px;
 }
 
-/* Nav Menu Container */
 #nav-menu-container {
   margin: 0 0 0 0;
 }
 
-/* Nav Menu Styling */
 .nav-menu a {
   padding: 8px 8px;
   text-decoration: none;
@@ -345,8 +324,9 @@ span {
 }
 
 
-/* About Section
---------------------------------*/
+/*--------------------------------------------------------------
+# About Section
+--------------------------------------------------------------*/
 #about {
   width: 100%;
   height: calc(100vh - 40px);
@@ -388,8 +368,9 @@ span {
   text-align: center;
 }
 
-/* Contact Us Section
---------------------------------*/
+/*--------------------------------------------------------------
+# Contact Us Section
+--------------------------------------------------------------*/
 #contact .block-contact {
   background:black;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.19);
@@ -427,10 +408,9 @@ span {
   color:gold;
 }
 
-
-/* Sign Up Section
---------------------------------*/
-
+/*--------------------------------------------------------------
+# Sign Up Section
+--------------------------------------------------------------*/
 #signup {
   background: #fff;
   position: relative;
@@ -579,4 +559,748 @@ span {
 
 #signup .php-email-form button[type="submit"]:hover {
   background: black;
+}
+
+/*--------------------------------------------------------------
+# Side Bar
+--------------------------------------------------------------*/
+.sidenav a {
+  padding: 10px 10px 10px 32px;
+  text-decoration: none;
+  font-size: 14px;
+  color: gray;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: white;
+}
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow-x: hidden;
+  padding-top: 20px;
+  font-size: 16px;
+  font-family: "Philosopher", sans-serif;
+}
+
+.sidenav #logo img {
+  padding: 0;
+  margin: 0;
+  height: 125px;
+  width: auto;
+}
+
+.sidenav #sidebar-active > a{
+  color: gold;
+}
+
+/*--------------------------------------------------------------
+# Super Admin Dashboard
+--------------------------------------------------------------*/
+#superadmin .block-superadmin {
+  background:white;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.19);
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  margin-bottom: 225px;
+  margin-left: 100px;
+}
+
+#superadmin .block-superadmin .table {
+  margin-top: 20px;
+  max-width: 100%;
+  width: 100%;
+}
+
+#superadmin .block-superadmin h2 {
+  margin-bottom: 30px;
+  color: black;
+  font-size: 20px;
+}
+
+#superadmin h1 {
+  padding-top: 50px;
+  margin-top: 100px;
+  margin-left: 130px;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  font-family: "Philosopher", sans-serif;
+  color:black;
+}
+
+#superadmin h4 {
+  margin-left: 130px;
+}
+
+#superadmin .block-superadmin p {
+  color:gold;
+  font-size: 16px;
+}
+
+#superadmin .btn {
+  border: 1px solid gold;
+  border-radius: 50px;
+  color: gold;
+  background: black;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+}
+
+#superadmin .btn:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+/*--------------------------------------------------------------
+# Admin Dashboard
+--------------------------------------------------------------*/
+#admin .block-admin {
+  background:white;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.19);
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  margin-bottom: 225px;
+  margin-left: 235px;
+}
+
+#admin .block-admin .table {
+  margin-top: 20px;
+  max-width: 100%;
+  width: 100%;
+}
+
+#admin .block-admin h2 {
+  margin-bottom: 30px;
+  color: black;
+  font-size: 20px;
+}
+
+#admin h1 {
+  padding-top: 50px;
+  margin-top: 100px;
+  margin-left: 130px;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  font-family: "Philosopher", sans-serif;
+  color:black;
+}
+
+#admin h4 {
+  margin-left: 140px;
+}
+
+#admin .block-admin p {
+  color:gold;
+  font-size: 16px;
+}
+
+#admin .btn {
+  border: 1px solid gold;
+  border-radius: 50px;
+  color: gold;
+  background: black;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+}
+
+#admin .btn:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+/*--------------------------------------------------------------
+# Student Dashboard
+--------------------------------------------------------------*/
+#student .block-student {
+  background:white;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 4px 0 rgba(0, 0, 0, 0.19);
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  margin-bottom: 225px;
+  margin-left: 100px;
+}
+
+#student .block-student .table {
+  margin-top: 20px;
+  max-width: 100%;
+  width: 100%;
+}
+
+#student .block-student h2 {
+  margin-bottom: 30px;
+  color: black;
+  font-size: 20px;
+}
+
+#student h1 {
+  padding-top: 50px;
+  margin-top: 100px;
+  margin-left: 150px;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  font-family: "Philosopher", sans-serif;
+  color:black;
+}
+
+#student h4 {
+  margin-left: 150px;
+}
+
+#student .block-student p {
+  color:gold;
+  font-size: 16px;
+}
+
+#student .btn {
+  border: 1px solid gold;
+  border-radius: 50px;
+  color: gold;
+  background: black;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+}
+
+#student .btn:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+/*--------------------------------------------------------------
+# Super Admin - Create University Profile Section
+--------------------------------------------------------------*/
+#createuni {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 100px;
+  margin-left: 200px;
+}
+
+#createuni h2 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-right: 240px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#createuni .row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+#createuni .col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+  padding: 0 16px;
+}
+
+#createuni input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#createuni textarea {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#createuni button[type="submit"] {
+  background: black;
+  border: 0;
+  padding: 10px 50px;
+  color: gold;
+  transition: 0.4s;
+  margin-top: 30px;
+  margin-right: 225px;
+}
+
+#createuni button[type="submit"]:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+#createuni label {
+  float: left;
+  font-weight: 600;
+  padding-bottom: 5px;
+  font-size: 16px;
+  margin-left: 3px;
+}
+
+/*--------------------------------------------------------------
+# Create New Event Section
+--------------------------------------------------------------*/
+#createevent {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 100px;
+  margin-left: 200px;
+}
+
+#createevent h2 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-right: 230px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#createevent .row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+#createevent input[type=time], input[type=email], input[type=date], input[type=text], input[type=tel] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#createevent #category {
+  margin-bottom: 15px;
+  padding: 11px 11px 11px 11px;
+}
+
+#createevent #eventtype {
+  margin-bottom: 15px;
+  padding: 11px 11px 11px 11px;
+}
+
+#createevent .col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+  padding: 0 16px;
+}
+
+#createevent button[type="submit"] {
+  background: black;
+  border: 0;
+  padding: 10px 50px;
+  color: gold;
+  transition: 0.4s;
+  margin-top: 30px;
+  margin-right: 225px;
+}
+
+#createevent button[type="submit"]:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+#createevent label {
+  float: left;
+  font-weight: 600;
+  padding-bottom: 5px;
+  font-size: 16px;
+  margin-left: 3px;
+}
+
+/*--------------------------------------------------------------
+# Pending Event Section
+--------------------------------------------------------------*/
+#pendingevent {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+#pendingevent h2 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#pendingevent .btn {
+  color:gold;
+  float: left;
+}
+
+#pendingevent .card-header{
+  background: black;
+}
+
+#pendingevent .btnapprove {
+  border: 1px solid black;
+  color: white;
+  background: green;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+  width: 10%;
+  margin-right: 20px;
+}
+
+#pendingevent .btnapprove:hover {
+  color: white;
+  background-color: green;
+  border-color: white;
+}
+
+#pendingevent .btndeny {
+  border: 1px solid black;
+  color: white;
+  background: red;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+  width: 10%;
+}
+
+#pendingevent .btndeny:hover {
+  color: white;
+  background-color: red;
+  border-color: white;
+}
+
+#pendingevent .decisionbuttons {
+  margin-top: 25px;
+  text-align: center;
+}
+
+#pendingevent .row {
+  margin-bottom: 75px;
+  margin-left: 20px;
+}
+
+/*--------------------------------------------------------------
+# Current Event Section
+--------------------------------------------------------------*/
+#schedule .nav-tabs li {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+#schedule .nav-tabs a.active {
+  color: gold;
+}
+
+#schedule .nav-tabs a{
+  color: black;
+}
+
+#schedule .sub-heading {
+  text-align: left;
+  font-size: 18px;
+  font-style: italic;
+  margin: 0 auto 30px auto;
+  margin-top: 25px;
+}
+
+#schedule .tab-pane {
+  transition: ease-in-out .2s;
+}
+
+#schedule .schedule-item {
+  border-bottom: 1px solid #cad4f6;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  transition: background-color ease-in-out 0.3s;
+}
+
+#schedule .schedule-item:hover {
+  background-color: #fff;
+}
+
+#schedule .schedule-item time {
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+#schedule .schedule-item h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+#schedule .schedule-item p {
+  color: grey;
+  margin-bottom: 0;
+  font-size: 16px;
+}
+
+#schedule h1 {
+  padding-top: 100px;
+  padding-bottom: 20px;
+  margin: 0 0 10px 0;
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  font-family: "Philosopher", sans-serif;
+  color:black;
+  text-align: center;
+}
+
+/*--------------------------------------------------------------
+# My RSO Section
+--------------------------------------------------------------*/
+#rso {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 100px;
+}
+
+#rso h1 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#rso thead tr th{
+  color: gold;
+}
+
+/*--------------------------------------------------------------
+# Request new RSO Section
+--------------------------------------------------------------*/
+#newrso {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 100px;
+  margin-left: 200px;
+}
+
+#newrso h2 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-right: 240px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#newrso .row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+
+#newrso input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#newrso textarea {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#newrso button[type="submit"] {
+  background: black;
+  border: 0;
+  padding: 10px 50px;
+  color: gold;
+  transition: 0.4s;
+  margin-top: 30px;
+  margin-right: 225px;
+}
+
+#newrso button[type="submit"]:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+#newrso label {
+  float: left;
+  font-weight: 600;
+  padding-bottom: 5px;
+  font-size: 16px;
+  margin-left: 3px;
+}
+
+/*--------------------------------------------------------------
+# Search RSO Section
+--------------------------------------------------------------*/
+#searchrso {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 100px;
+  margin-left: 200px;
+}
+
+#searchrso h1 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-right: 240px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#myInput {
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 25%;
+  float: right;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 70%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header {
+  background-color: black;
+  color: gold;
+}
+
+#myTable tr:hover {
+  background-color: lightgray;
+}
+
+#myTable .btn {
+  border: 1px solid lightgreen;
+  border-radius: 50px;
+  color: black;
+  background: lightgreen;
+  font-size: 9px;
+  padding: 9px 15px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+  float: right;
+}
+
+#myTable .btn:hover {
+  color: white;
+  background-color: green;
+  border-color: white;
 }
