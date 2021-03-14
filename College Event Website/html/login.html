@@ -135,18 +135,19 @@
       var jsonSend = JSON.stringify(loginData);
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '../api/login.php', true);
+      xhr.open('POST', '../api/login.php', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
 
-      xhr.send(jsonSend);
-      
-      xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log(xhr.response);
-            console.log(xhr.responseText);
+            console.log(this.response);
+            console.log(this.responseText);
           }
         }
       };
+
+      xhr.send(jsonSend);
     }
   </script>
 
