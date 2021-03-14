@@ -65,7 +65,7 @@
         <div class="col-lg-5 col-md-8">
           <!-- ======= Log in Form ======= -->
           <div class="form">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form class="php-email-form">
               <div class="form-group mt-3">
                 <input type="email" class="form-control" name="email" id="email" placeholder="Email" data-rule="email"
                   data-msg="Please enter a valid email." />
@@ -80,7 +80,7 @@
               <div class="mb-3">
                 <div class="loading">Loading</div>
               </div>
-              <div class="text-center"><button type="submit">Log In</button></div>
+              <div class="text-center"><button onClick="LogIn()" type="submit">Log In</button></div>
             </form>
             <!-- ======= End Log in Form ======= -->
           </div>
@@ -126,6 +126,29 @@
 
   <!-- JavaScript File -->
   <script src="../javascript/main.js"></script>
+
+  <script>
+    function LogIn(){
+      var email = document.getElementById("email");
+      var password = document.getElementById("password");
+      var loginData = {"email": email.value, "password": password.value}
+      var jsonSend = JSON.stringify(loginData);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '../api/login.php', true);
+
+      xhr.send(jsonSend);
+      
+      xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200) {
+            console.log(xhr.response);
+            console.log(xhr.responseText);
+          }
+        }
+      };
+    }
+  </script>
 
 </body>
 
