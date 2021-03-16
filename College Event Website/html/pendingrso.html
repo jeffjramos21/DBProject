@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>College Event Website | Pending Events</title>
+  <title>College Event Website | Pending RSO</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -38,30 +38,30 @@
     </div>
     <a href="superadmin.html">Dashboard</a>
     <a href="createuni.html">Create University Profile</a>
-    <div id="sidebar-active"><a href="pendingevent.html">Check Pending Events</a></div>
-    <a href="pendingrso.html">Check Pending RSO Requests</a>
+    <a href="pendingevent.html">Check Pending Events</a>
+    <div id="sidebar-active"><a href="pendingrso.html">Check Pending RSO Requests</a></div>
     <a href="checkevents.html">Check Current Events</a>
     <a href="../index.html">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
-  <!-- ======= Super Admin - Pending Event Section ======= -->
+  <!-- ======= Super Admin - Pending RSO Section ======= -->
   <section id="pendingevent" class="padd-section">
 
     <div class="container">
       <div class="section-title text-center">
-        <h2>Pending Events</h2>
+        <h2>Pending RSO Requests</h2>
       </div>
 
       <div class="row">
 
         <div id="accordion">
-          <!-- Pending Event Requests will be shown here -->
+          <!-- Pending RSO Requests will be shown here -->
         </div>
       </div>
     </div>
   </section>
-  <!-- ======= End Pending Event Section ======= -->
+  <!-- ======= End Pending RSO Section ======= -->
 
   <!-- Vendor JS Files -->
   <script src="../vendor/jquery/jquery.min.js"></script>
@@ -91,28 +91,25 @@
   <!-- DATA JAVASCRIPT-->
   <script>
     jcontent4 = {
-      "EventName": ["Knights Write 2021", "Yoga and Hiking", "PokeKnights: Virtual Club Meetings"],
-      "Date": ["2/24/2021", "2/22/2021", "2/22/2021"],
-      "Time": ["10:30 AM", "8:00 AM", "5:00 PM"],
-      "Location": ["Virtual", "Lake Claire Recreational Area", "Virtual"],
-      "EventType": ["Public", "Public", "RSO"],
-      "EventCat": ["Academic", "Recreation & Exercise", "Social Event"],
-      "Phone": ["407-823-2000", "407-823-2001", "407-823-2002"],
-      "Email": ["event1@knights.ucf.edu", "event2@knights.ucf.edu", "event3@knights.ucf.edu"],
-      "Description": ["This three-day virtual event celebrates outstanding writing and research by UCFstudents in ENC 1101 and 1102 and upper-division and graduate programs' writing and rhetoric courses.Knights Write 2021 spotlights the transformative nature of the first-year writing program at UCF forstudents from across the university and the powerful impact of advanced rhetorical study on students’research and writing abilities.",
-        "Lake Claire’s sandy shore is the best place on campus for a relaxing introduction toyoga! This is a great opportunity for you to learn about yoga,or have a great time with us even if you’re an experienced yogi! After a refreshing yoga session, we’llgo explore some of the incredible nature trails on campus and enjoy avery peaceful morning together!",
-        "Join us for fun Pokemon-themed activities online from the comfort and safety of yourhome. Open to all."
-      ]
+      "University": ["University of Central Florida", "University of Central Florida"],
+      "RSOName": ["American Concrete Institute", "Car Club"],
+      "Admin": ["adminamerican@knights.ucf.edu","admincar@knights.ucf.edu"],
+      "email2": ["email2american@knights.ucf.edu","email2car@knights.ucf.edu"],
+      "email3": ["email3american@knights.ucf.edu","email3car@knights.ucf.edu"],
+      "email4": ["email4american@knights.ucf.edu","email4car@knights.ucf.edu"],
+      "email5": ["email5american@knights.ucf.edu","email5car@knights.ucf.edu"],
+      "Description": ["The ACI student chapter at UCF (ACI-UCF) is a pre-professional organization to promote concrete-based technologies in materials, design, construction and management.",
+      "Car Club at UCF strives to provide an opportunity for automotive enthusiasts of all types to come together and discuss their passion for cars!"]
     }
 
-    for (var i = 0; i < jcontent4.EventName.length; i++) {
+    for (var i = 0; i < jcontent4.RSOName.length; i++) {
       var pending = document.createElement('div');
       pending.id = "accordion";
       document.getElementById('accordion').appendChild(pending)
       pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
-        jcontent4.EventName[i] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>Date: </b>' + jcontent4.Date[i] +
-        '<br /><b>Time: </b>' + jcontent4.Time[i] + '<br /><b>Location: </b>' + jcontent4.Location[i] + '<br /><b>Event Type: </b>' + jcontent4.EventType[i] + '<br /><b>Event Category: </b>' + jcontent4.EventCat[i] +
-        '<br /><b>Contact Phone Number: </b>' + jcontent4.Phone[i] + '<br /><b>Contact E-mail: </b>' + jcontent4.Email[i] + '<br /><b>Description: </b>' + jcontent4.Description[i] +
+        jcontent4.RSOName[i] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>University Name: </b>' + jcontent4.University[i] +
+        '<br /><b>Admin Email: </b>' + jcontent4.Admin[i] + '<br /><b>Contact Email #2: </b>' + jcontent4.email2[i] + '<br /><b>Contact Email #3: </b>' 
+        + jcontent4.email3[i] + '<br /><b>Contact Email #4: </b>' + jcontent4.email4[i] + '<br /><b>Contact Email #5: </b>' + jcontent4.email5[i] + '<br /><b>RSO Description: </b>' + jcontent4.Description[i] +
         '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve()">Approve</button><button class="btndeny", onclick="Deny()">Deny</button></div></div></div></div>'
     }
 

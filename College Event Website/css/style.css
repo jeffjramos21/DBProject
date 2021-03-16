@@ -457,29 +457,6 @@ span {
   padding-top: 5px;
 }
 
-#signup .social-links {
-  padding-bottom: 20px;
-}
-
-#signup .social-links a {
-  font-size: 18px;
-  display: inline-block;
-  background: black;
-  color:gold;
-  line-height: 1;
-  padding: 6px 0 8px 0;
-  border-radius: 50%;
-  text-align: center;
-  width: 36px;
-  height: 36px;
-  transition: 0.3s;
-}
-
-#signup .social-links a:hover {
-  background: black;
-  color:gold;
-}
-
 #signup .php-email-form .validate {
   display: none;
   color: red;
@@ -488,17 +465,11 @@ span {
   font-size: 13px;
 }
 
-#signup .php-email-form .error-message {
-  display: none;
-  color: #fff;
-  background: #ed3c0d;
-  text-align: left;
-  padding: 15px;
-  font-weight: 600;
-}
-
-#signup .php-email-form .error-message br + br {
-  margin-top: 25px;
+#signup .php-email-form #wrongpass {
+  color: red;
+  margin: 0 0 15px 0;
+  font-weight: 400;
+  font-size: 13px;
 }
 
 #signup .php-email-form .sent-message {
@@ -611,7 +582,6 @@ span {
   position: relative;
   width: 100%;
   margin-top: 100px;
-  margin-bottom: 225px;
   margin-left: 100px;
 }
 
@@ -961,6 +931,16 @@ span {
   margin-left: 3px;
 }
 
+#createevent #errormsg{
+  color: red;
+  margin-right: 225px;
+  margin-top: 10px;
+}
+
+#createevent select {
+  height: max-content;
+}
+
 /*--------------------------------------------------------------
 # Pending Event Section
 --------------------------------------------------------------*/
@@ -988,9 +968,10 @@ span {
   font-family: "Philosopher", sans-serif;
 }
 
-#pendingevent .btn {
-  color:gold;
+#pendingevent h5 {
+  color: gold;
   float: left;
+  font-size: large;
 }
 
 #pendingevent .card-header{
@@ -1058,6 +1039,10 @@ span {
 
 #schedule .nav-tabs a{
   color: black;
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 0px;
+  text-transform: none;
 }
 
 #schedule .sub-heading {
@@ -1112,6 +1097,27 @@ span {
   text-align: center;
 }
 
+#schedule a {
+  color: black;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+#schedule #filterNav .show {
+  display: block;
+}
+
+#schedule #filterNav .btn{
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+#schedule #filterNav .btn.active {
+  text-decoration: underline;
+  color: gold;
+}
 /*--------------------------------------------------------------
 # My RSO Section
 --------------------------------------------------------------*/
@@ -1142,6 +1148,24 @@ span {
 
 #rso thead tr th{
   color: gold;
+}
+
+#rso .btn {
+  border: 1px solid lightcoral;
+  border-radius: 50px;
+  color: black;
+  background: lightcoral;
+  font-size: 9px;
+  padding: 9px 15px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+  float: right;
+}
+
+#rso .btn:hover {
+  color: white;
+  background-color: red;
+  border-color: white;
 }
 
 /*--------------------------------------------------------------
@@ -1222,6 +1246,11 @@ span {
   margin-left: 3px;
 }
 
+#newrso #errormsg {
+  color: red;
+  margin-right: 225px;
+}
+
 /*--------------------------------------------------------------
 # Search RSO Section
 --------------------------------------------------------------*/
@@ -1266,7 +1295,7 @@ span {
   border-collapse: collapse;
   width: 70%;
   border: 1px solid #ddd;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 #myTable th, #myTable td {
@@ -1303,4 +1332,244 @@ span {
   color: white;
   background-color: green;
   border-color: white;
+}
+
+#myTable a{
+  color: black;
+}
+
+/*--------------------------------------------------------------
+# View RSO Section
+--------------------------------------------------------------*/
+#viewAnRSO {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+#viewAnRSO h1 {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#viewAnRSO p {
+  color: black;
+  margin-bottom: 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+#viewAnRSO .btn {
+  border: 1px solid lightgreen;
+  border-radius: 50px;
+  color: black;
+  background: lightgreen;
+  font-size: 12px;
+  padding: 15px 25px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out 0s;
+  float: right;
+}
+
+#viewAnRSO .btn:hover {
+  color: white;
+  background-color: green;
+  border-color: white;
+}
+
+#viewAnRSO b{
+  font-weight: bold;
+}
+
+#viewAnRSO a{
+  text-decoration: none;
+}
+
+/*--------------------------------------------------------------
+# View Event Section
+--------------------------------------------------------------*/
+#viewAnEvent {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+#viewAnEvent h1 {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#viewAnEvent p {
+  color: black;
+  margin-bottom: 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+#viewAnEvent b{
+  font-weight: bold;
+}
+
+/*--------------------------------------------------------------
+# Comment Section
+--------------------------------------------------------------*/
+
+#comment h2 {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+#comment .date {
+  font-size: 12px;
+}
+
+#comment .comment-text {
+  font-size: 16px;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 10px;
+}
+
+#comment .fs-12 {
+  font-size: 12px;
+}
+
+#comment .shadow-none {
+  box-shadow: none;
+}
+
+#comment .name {
+  color: gold;
+  font-size: large;
+}
+
+#comment .textarea {
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+#comment .btn {
+  border: 1px solid black;
+  color: black;
+  background: white;
+  margin-bottom: 50px;
+}
+
+#comment .btn:hover {
+  color: white;
+  background-color: gold;
+  border-color: black;
+}
+
+#testcomment .card-body {
+  border-bottom: 1px solid lightgray;
+  font-size: 20px;
+}
+
+#testcomment .date {
+  font-size: 12px;
+}
+
+#testcomment .card {
+  margin-bottom: 50px;
+  margin-top: 25px;
+}
+
+#testcomment h2 {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  margin-top: 60px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#testcomment .btn{
+  border: 1px solid black;
+  color: gold;
+  background: black;
+  margin-bottom: 50px;
+}
+
+#testcomment .fa {
+  font-size: 18px;
+  float: right;
+}
+
+#testcomment #edit {
+  background-color: transparent; 
+  border: none;
+  color: green;
+  margin-right: 15px;
+}
+
+#testcomment #remove {
+  background-color: transparent; 
+  border: none;
+  color: red;
+}
+
+#testcomment .btn:hover {
+  color: black;
+  background-color: gold;
+  border-color: black;
+}
+
+#testcomment #theComment p{
+  font-size: 18px;
+}
+
+#testcomment div.stars {
+  width: 270px;
+  float: right;
+}
+
+#testcomment input.star { display: none; }
+
+#testcomment label.star {
+  float: right;
+  padding: 10px;
+  font-size: 20px;
+  color: #444;
+  transition: all .2s;
+}
+
+#testcomment input.star:checked ~ label.star:before {
+  content: '\f005';
+  color: #FD4;
+  transition: all .25s;
+}
+
+#testcomment label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+#testcomment label.star:before {
+  content: '\f006';
+  font-family: FontAwesome;
 }

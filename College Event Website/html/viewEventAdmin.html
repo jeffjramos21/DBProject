@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>College Event Website | View Event</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../images/favicon1.ico" rel="icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../vendor/modal-video/css/modal-video.min.css" rel="stylesheet">
+    <link href="../vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../vendor/aos/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+        id="bootstrap-css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- CSS File -->
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+
+<body onload="javascript:getData()">
+    <!-- Side Bar-->
+    <div id="mySidenav" class="sidenav">
+        <div id="logo">
+          <a href="../index.html"><img src="../images/logo.png" alt="" title="" /></a>
+        </div>
+        <a href="admin.html">Dashboard</a>
+        <a href="rsoAdmin.html">My RSO</a>
+        <a href="createeventAdmin.html">Create Event</a>
+        <div id="sidebar-active"><a href="checkeventsAdmin.html">Check Current Events</a></div>
+        <a href="../index.html">Log Out</a>
+      </div>
+    <!-- End Side Bar-->
+
+    <!-- ======= View Specific Event Section ======= -->
+    <section id="viewAnEvent" class="section-with-bg">
+        <div class="container">
+            <div id="viewEvent">
+
+            </div>
+        </div>
+    </section>
+    <!-- ======= End Specific Event Section ======= -->
+
+    <!-- ======= Comment Section ======= -->
+    <section id="testcomment">
+        <div class="container">
+            <h2>Comments and Ratings</h2>
+            <div class="card" id="loadComments">
+                <!-- Comments get loaded here-->
+            </div>
+            <div id="commented"></div>
+            <form action="">
+                <div class="stars">
+                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" />
+                    <label class="star star-5" for="star-5"></label>
+                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" />
+                    <label class="star star-4" for="star-4"></label>
+                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
+                    <label class="star star-3" for="star-3"></label>
+                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
+                    <label class="star star-2" for="star-2"></label>
+                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" />
+                    <label class="star star-1" for="star-1"></label>
+
+                </div>
+
+                <textarea id="commentarea" class="form-control ml-1 textarea" rows="3"
+                    placeholder="Comment..."></textarea>
+                <div class="mt-2 text-right"><button onClick="postComment()" class="btn" type="button">Post
+                        comment</button></div>
+            </form>
+        </div>
+
+    </section>
+    <!-- ======= End Comment Section ======= -->
+
+    <!-- Vendor JS Files -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="../vendor/php-email-form/validate.js"></script>
+    <script src="../vendor/modal-video/js/modal-video.min.js"></script>
+    <script src="../vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="../vendor/superfish/superfish.min.js"></script>
+    <script src="../vendor/hoverIntent/hoverIntent.js"></script>
+    <script src="../vendor/aos/aos.js"></script>
+
+    <!-- JavaScript File -->
+    <script src="../javascript/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        var userID = 1;
+        jcontent2 = {
+            "ID": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "Type": ["Public", "Public", "Private", "RSO", "RSO", "Public", "Public", "RSO", "Private", "RSO"],
+            "Category": ["Other", "Workshop", "Workshop", "Workshop", "Social Event", "Sports", "Workshop", "Social Event", "Meeting", "Other"],
+            "EventTime": ["10:00 AM", "12:00PM", "12:00 PM", "3:00 PM", "6:00 PM", "9:00 AM", "9:00 AM", "3:00 PM", "12:00 PM", "10:00 AM"],
+            "EventDate": ["March 01, 2021", "March 01, 2021", "March 01, 2021", "March 01, 2021", "March 01, 2021", "February 29, 2021", "February 28, 2021", "March 02, 2021", "March 03, 2021", "March 04, 2021"],
+            "EventName": ["Paper House - 2021 Annual MFA Exhibition", "EndNote Citation Management", "Application Workshop #2", "Preparing a Research Poster", "In Her Honor", "Kayaking Day Trip", "Scaramouch in Naxos", "Pride Chats", "Prep with a Pro", "How to Start Your Business"],
+            "Location": ["UCF Art Gallery", "Virtual", "Virtual", "Virtual", "Teaching Academy", "Outdoor Adventure Center", "Performing Arts Center", "Virtual", "Virtual", "Teaching Academy"],
+            "EventDescription": ["Paper House explores fragility, transparency, and validation of intimate relationships and experiences through a variety of mediums and processes. The exhibition showcases the thesis work of Master of Fine Arts candidates in the UCF School of Visual Arts and Design: Gabe Cortese, Danielle Culibao Powell, Tim Reid and Annette Tojar.",
+                "Citation management tools allow you to dedicate more time to research. Join us to learn how to export citations from library databases, organize citations, generate bibliographies and format citations in a Word document. EndNote can help make managing your references and formatting citations easy.",
+                "Join us for our second Zoom virtual workshop that will help you prepare your application for the 2021 Joust New Venture Competition presented by Viatek.",
+                "This workshop will help undergraduate students gain skills to prepare a poster presentation of your research or creative work. Note: This workshop is for students already working on a research project.",
+                "On Monday, March 1 from 6 to 7:30 p.m., join your community of peers from womxn based organizations for a night of honoring Womxnhood and Embracing Art. Come with your creative and diverse minds as we will be creating our own works of art in honor of Women's History Month.",
+                "Join Outdoor Adventure as we paddle through Central Florida’s diverse wetlands. Kayaking offers the opportunity to connect with nature in a very unique way, and as we move through the rivers we will hopefully get to see plenty of wildlife like fish, turtles, and birds dive beneath the surface.",
+                "Full of raucous energy typical of Commedia dell’arte, this colorful play involves a plot by the roguish clown Scaramouch to have Bacchus, the Greek god himself, star in his latest theatrical piece.",
+                "Pride Chats are a biweekly discussion that focuses on a multitude of diverse topics. The topics are different at each event and address different aspects of the LGBTQ+ community.",
+                "Join employers presenting on topics, including interviewing strategies, impressing the recruiter, financial check-up and more to help you prepare to launch your career.",
+                "If you’re thinking of starting a business, it’s important to take the right steps. This course will give you an overview of what to know, actions to take, and how to avoid common missteps to give your company its greatest chance of success."],
+            "Email": ["paper@knights.ucf.edu", "endnote@knights.ucf.edu", "workshop@knights.ucf.edu", "research@knights.ucf.edu", "honor@knights.ucf.edu", "kayak@knights.ucf.edu", "scaramouch@knights.ucf.edu",
+                "pride@knights.ucf.edu", "prep@knights.ucf.edu", "business@knights.ucf.edu"]
+        }
+
+        jcontent4 = {
+            "userID": [1, 2, 3],
+            "commentID":[1,2,3],
+            "firstName": ["Elaine", "Min", "Jeffrey"],
+            "lastName": ["Ng", "Park", "Ramos"],
+            "date": ["February 21, 2021", "February 22, 2021", "February 28, 2021"],
+            "comment": ["Can't wait to attend this event!", "So excited for thissss", "BOOOOOOOO!!! wish i could give it zero stars"],
+            "rating": [4, 5, 1]
+        }
+
+        const clickedID = localStorage.getItem('clickedEventID');
+        var event = document.getElementById("viewEvent");
+        event.innerHTML = '<h1>' + jcontent2.EventName[clickedID] + '</h1><div class="col-sm-12"><p><b>Event Day: </b>' + jcontent2.EventDate[clickedID] +
+            '</p><br/><p><b>Event Time: </b>' + jcontent2.EventTime[clickedID] + '</p><br/><p><b>Event Type: </b>' + jcontent2.Type[clickedID] +
+            '</p><br/><p><b>Event Category: </b>' + jcontent2.Category[clickedID] + '</p><br/><p><b>Location: </b>' + jcontent2.Location[clickedID] +
+            '</p><br/><p><b>Event Description: </b>' + jcontent2.EventDescription[clickedID] + '</p><br/><p><b>Contact E-mail: </b>' + jcontent2.Email[clickedID] + '</p></div>';
+
+
+        for (var i = 0; i < jcontent4.userID.length; i++) {
+            if (jcontent4.userID[i] == userID) {
+                var loadCom = document.createElement('div');
+                loadCom.id = "loadComments";
+                document.getElementById('loadComments').appendChild(loadCom);
+                loadCom.innerHTML =
+                    '<div class="card-body"><div class="col-md-12"><p><div class="float-left"><strong>' + jcontent4.firstName[i] + ' ' + jcontent4.lastName[i] +
+                    '</strong></div>' + showRating(jcontent4.rating[i]) + '</p><br/><p>' + jcontent4.date[i] + '</p><div class="clearfix"></div><div id="theComment"><p>' +
+                    jcontent4.comment[i] + '<button onClick="removeComment()" id="remove" data-toggle="tooltip" data-placement="top" title="Remove" class="fa fa-trash" aria-hidden="true"></button>' +
+                    '<button onClick="editComment()" id="edit" data-toggle="tooltip" data-placement="top" title="Edit" class="fa fa-pencil" aria-hidden="true"></button></p></div></div></div>' +
+
+                    '<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document">' +
+                    '<div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="removeModalLongTitle">Remove Comment</h5></div><div class="modal-body">' +
+                    '<div id="removedsuccess"></div> Are you sure you want to remove this comment?</div><div class="modal-footer">' +
+                    '<button onClick="removeCommentConfirmed(\'' + jcontent4.commentID[i] + '\')" type="button" class="btn btn-secondary" data-dismiss="modal">Remove</button><button onClick="closeRemove()" type="button" class="btn btn-primary">Close</button></div></div></div></div>' +
+
+                    '<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">' +
+                    '<div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header">' +
+                    '<h5 class="modal-title" id="editModalLongTitle">Edit Comment</h5></div><div class="modal-body"><div id="editcommentsuccess"></div>' +
+                    '<div class="stars"><input class="star star-5" id="editstar-5" type="radio" name="editStar value="5" /><label class="star star-5" for="editstar-5"></label>' +
+                    '<input class="star star-4" id="editstar-4" type="radio" name="editStar" value="4"/><label class="star star-4" for="editstar-4"></label><input class="star star-3" id="editstar-3" type="radio" name="editStar" value="3"/>' +
+                    '<label class="star star-3" for="editstar-3"></label><input class="star star-2" id="editstar-2" type="radio" name="editStar" value="2"/><label class="star star-2" for="editstar-2"></label>' +
+                    '<input class="star star-1" id="editstar-1" type="radio" name="editStar" value="1"/><label class="star star-1" for="editstar-1"></label></div>' +
+                    '<textarea id="editcommentarea" cols="63" placeholder="New Comment..."></textarea></div>' +
+                    '<div class="modal-footer"><button onClick="editCommentSaved(\'' + jcontent4.commentID[i] + '\')" type="button" class="btn btn-secondary" data-dismiss="modal">Save</button>' +
+                    '<button onClick="closeEdit()" type="button" class="btn btn-primary">Close</button></div></div></div>';
+            } else {
+                var loadCom = document.createElement('div');
+                loadCom.id = "loadComments";
+                document.getElementById('loadComments').appendChild(loadCom);
+                loadCom.innerHTML =
+                    '<div class="card-body"><div class="col-md-12"><p><div class="float-left"><strong>' + jcontent4.firstName[i] + ' ' + jcontent4.lastName[i] +
+                    '</strong></div>' + showRating(jcontent4.rating[i]) + '</p><br/><p>' + jcontent4.date[i] + '<p></p><div class="clearfix"></div><div id="theComment"><p>' +
+                    jcontent4.comment[i] + '</p></div></div></div>';
+            }
+
+        }
+
+
+        function getData() {
+            var eventData = { "userID": userID, "eventID": clickedID }
+            var jsonSend = JSON.stringify(eventData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/getsomeevent.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+
+        function postComment() {
+            var comment = document.getElementById("commentarea").value;
+            var rating = document.getElementsByName("star");
+            for (var i = 0; i < rating.length; i++) {
+                if (rating[i].checked) {
+                    var ratingValue = rating[i].value;
+                }
+            }
+
+            var commentData = { "userID": userID, "eventID": clickedID, "comment": comment, "rating": ratingValue };
+            var jsonSend = JSON.stringify(commentData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/postcomment.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                        var commented = document.getElementById("commented");
+                        commented.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Comment has been posted. Refresh page to see new changes.' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+
+        function editCommentSaved(commentID){
+            var comment = document.getElementById("editcommentarea").value;
+            var rating = document.getElementsByName("editStar");
+            for (var i = 0; i < rating.length; i++) {
+                if (rating[i].checked) {
+                    var ratingValue = rating[i].value;
+                }
+            }
+
+            var commentData = {"userID": userID, "eventID": clickedID, "commentID": commentID, "comment": comment, "rating": ratingValue};
+            var jsonSend = JSON.stringify(commentData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/editcomment.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                        var commented = document.getElementById("editcommentsuccess");
+                        commented.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Comment has been edited. Refresh page to see new changes.' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }        
+
+        function removeCommentConfirmed(commentID){
+            var removeComment = {"userID": userID, "eventID": clickedID, "commentID": commentID};
+            var jsonSend = JSON.stringify(removeComment);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/removecomment.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                        var removed = document.getElementById("removedsuccess");
+                        removed.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">Comment has been removed. Refresh page to see new changes.' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+
+    </script>
+</body>
+
+</html>

@@ -25,7 +25,18 @@
   <link href="../vendor/aos/aos.css" rel="stylesheet">
 
   <!-- CSS File -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link href="../css/style.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -46,12 +57,14 @@
   <section id="createevent" class="padd-section">
 
     <div class="container">
+      <div id="createsuccess"></div>
       <div class="section-title text-center">
         <h2>Create New Event Form</h2>
       </div>
 
       <div class="row justify-content-center">
         <div class="container">
+
           <div class="row">
             <div class="col-lg-5 col-md-8">
               <div class="form-group">
@@ -64,9 +77,9 @@
                   <div class="form-group">
                     <label for="eventtype">Event Type</label>
                     <select class="form-control" id="eventtype">
-                      <option>Public</option>
-                      <option>Private</option>
-                      <option>RSO</option>
+                      <option value="Public">Public</option>
+                      <option value="Private">Private</option>
+                      <option value="RSO">RSO</option>
                     </select>
                   </div>
                 </div>
@@ -75,22 +88,22 @@
                   <div class="form-group">
                     <label for="category">Event Category</label>
                     <select class="form-control" id="category">
-                      <option>Academic</option>
-                      <option>Career</option>
-                      <option>Concert</option>
-                      <option>Entertainment</option>
-                      <option>Health</option>
-                      <option>Holiday</option>
-                      <option>Information Session</option>
-                      <option>Meeting</option>
-                      <option>Open Forum</option>
-                      <option>Other</option>
-                      <option>Recreation & Exercise</option>
-                      <option>Social Event</option>
-                      <option>Seminar</option>
-                      <option>Sports</option>
-                      <option>Volunteer</option>
-                      <option>Workshop</option>
+                      <option value="Academic">Academic</option>
+                      <option value="Career">Career</option>
+                      <option value="Concert">Concert</option>
+                      <option value="Entertainment">Entertainment</option>
+                      <option value="Health">Health</option>
+                      <option value="Holiday">Holiday</option>
+                      <option value="Information Session">Information Session</option>
+                      <option value="Meeting">Meeting</option>
+                      <option value="Open Forum">Open Forum</option>
+                      <option value="Other">Other</option>
+                      <option value="Recreation & Exercise">Recreation & Exercise</option>
+                      <option value="Social Event">Social Event</option>
+                      <option value="Seminar">Seminar</option>
+                      <option value="Sports">Sports</option>
+                      <option value="Volunteer">Volunteer</option>
+                      <option value="Workshop">Workshop</option>
                     </select>
                   </div>
                 </div>
@@ -162,7 +175,8 @@
             </div>
           </div>
 
-          <div class="button"><button type="submit">Submit</button></div>
+          <div id="errormsg"></div>
+          <div class="button"><button onClick="createEventSubmit()" type="submit">Submit</button></div>
         </div>
       </div>
     </div>
@@ -182,6 +196,60 @@
 
   <!-- JavaScript File -->
   <script src="../javascript/main.js"></script>
+
+  <script>
+    var userID = 1;
+    function createEventSubmit(){
+      var error = document.getElementById("errormsg");
+      error.innerText = "";
+      
+      var eventName = document.getElementById("eventname").value;
+      var eventType = document.getElementById("eventtype").value;
+      var eventCat = document.getElementById("category").value;
+      var date = document.querySelector('input[type="date"]').value;
+      var time = document.querySelector('input[type="time"]').value;
+      var eventEmail = document.getElementById("eventemail").value;
+      var eventPhone = document.getElementById("eventphone").value;
+      var description = document.getElementById("eventdescription").value;
+      var address = document.getElementById("eventaddr").value;
+      var city = document.getElementById("eventcity").value;
+      var state = document.getElementById("eventstate").value;
+      var zip = document.getElementById("eventzip").value;
+
+      if(eventName === "" || date === "" || time === "" || eventEmail === "" || eventPhone === "" || description === "" || address === "" ||
+        city === "" || state === "" || zip === ""){
+          var error = document.getElementById("errormsg");
+          error.innerText = "All fields must be filled in."
+      } else {
+        var createEventData = { "userID": userID, "eventName": eventName, "type": eventType, "category": eventCat, "date": date, "time": time, 
+        "email": eventEmail, "phone": eventPhone, "description": description, "address": address, "city": city, "state": state, "zip": zip }
+          var jsonSend = JSON.stringify(createEventData);
+          console.log('JSON SENDING:' + jsonSend);
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'http://localhost/collegewebsite/api/createevent.php', true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                console.log(this.response);
+                console.log(this.responseText);
+
+              }
+            }
+          };
+
+          xhr.send(jsonSend);
+          var created = document.getElementById("createsuccess");
+                created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New event creation has been received.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+      }
+      
+     
+  }
+
+  </script>
 
 </body>
 
