@@ -25,7 +25,18 @@
   <link href="../vendor/aos/aos.css" rel="stylesheet">
 
   <!-- CSS File -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link href="../css/style.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -48,6 +59,7 @@
 
     <div class="container">
       <div class="section-title text-center">
+        <div id="requestsuccess"></div>
         <h2>Request New RSO</h2>
       </div>
 
@@ -102,7 +114,8 @@
             </div>
 
           </div>
-          <div class="button"><button type="submit">Request</button></div>
+          <div id="errormsg"></div>
+          <div class="button"><button onClick="RequestRSO()" type="submit">Request</button></div>
         </div>
       </div>
     </div>
@@ -123,6 +136,58 @@
 
   <!-- JavaScript File -->
   <script src="../javascript/main.js"></script>
+
+  <script>
+    var userID = 1;
+
+    function RequestRSO() {
+      var error = document.getElementById("errormsg");
+      error.innerText = "";
+      var university = document.getElementById("uniname").value;
+      var rsoName = document.getElementById("rsoname").value;
+      var description = document.getElementById("description").value;
+      var adminEmail = document.getElementById("email1").value;
+      var memEmail2 = document.getElementById("email2").value;
+      var memEmail3 = document.getElementById("email3").value;
+      var memEmail4 = document.getElementById("email4").value;
+      var memEmail5 = document.getElementById("email5").value;
+
+      if (university === "" || rsoName === "" || description === "" || adminEmail === "" || memEmail2 === "" || memEmail3 === "" || memEmail4 === "" || memEmail5 === "") {
+        var error = document.getElementById("errormsg");
+        error.innerText = "All fields must be filled in.";
+      } else {
+        var domain = adminEmail.substr((adminEmail.indexOf("@") + 1));
+        if (memEmail2.substr((memEmail2.indexOf("@") + 1)) === domain && memEmail3.substr((memEmail3.indexOf("@") + 1)) === domain && memEmail4.substr((memEmail4.indexOf("@") + 1)) === domain &&
+          memEmail5.substr((memEmail5.indexOf("@") + 1)) === domain) {
+
+          var requestRSO = { "userID": userID, "rsoName": rsoName, "description": description, "admin": adminEmail, "mem1": memEmail2, "mem2": memEmail3, "mem3": memEmail4, "mem4": memEmail5 }
+          var jsonSend = JSON.stringify(requestRSO);
+          console.log('JSON SENDING:' + jsonSend);
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'http://localhost/collegewebsite/api/requestrso.php', true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                console.log(this.response);
+                console.log(this.responseText);
+                var requested = document.getElementById("requestsuccess");
+                requested.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New RSO request has been received.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+              }
+            }
+          };
+
+          xhr.send(jsonSend);
+        } else {
+          var error = document.getElementById("errormsg");
+          error.innerText = "All E-mails provided must have the same domain.";
+        }
+      }
+    }
+  </script>
 
 </body>
 

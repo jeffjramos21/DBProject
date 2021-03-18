@@ -65,7 +65,7 @@
         <div class="col-lg-5 col-md-8">
           <!-- ======= Log in Form ======= -->
           <div class="form">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form class="php-email-form" action="">
               <div class="form-group mt-3">
                 <input type="email" class="form-control" name="email" id="email" placeholder="Email" data-rule="email"
                   data-msg="Please enter a valid email." />
@@ -80,7 +80,7 @@
               <div class="mb-3">
                 <div class="loading">Loading</div>
               </div>
-              <div class="text-center"><button type="submit">Log In</button></div>
+              <div class="text-center"><button onClick="LogIn()" type="submit">Log In</button></div>
             </form>
             <!-- ======= End Log in Form ======= -->
           </div>
@@ -126,6 +126,38 @@
 
   <!-- JavaScript File -->
   <script src="../javascript/main.js"></script>
+  <script src="../javascript/md5.js"></script>
+
+  <script>
+    function LogIn(){
+      var email = document.getElementById("email");
+      var password = document.getElementById("password");
+
+      if(email.value !== "" && password.value !== ""){
+        var hashedpassword = md5(password.value);
+        var loginData = {"email": email.value, "password": hashedpassword}
+        var jsonSend = JSON.stringify(loginData);
+        console.log('JSON SENDING:' + jsonSend);
+        alert("logging in!");
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost/collegewebsite/api/login.php', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            console.log(this.response);
+            console.log(this.responseText);
+            location.href = "student.html";
+          }
+        }
+      };
+
+      xhr.send(jsonSend);  
+      }
+    }
+  </script>
 
 </body>
 

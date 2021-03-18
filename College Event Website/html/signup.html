@@ -67,7 +67,7 @@
         <div class="col-lg-5 col-md-8">
           <div class="form">
             <!-- ======= Sign Up Form ======= -->
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form class="php-email-form" action="">
               <div class="form-group">
                 <input type="text" name="firstname" class="form-control" id="firstname" placeholder="First Name"
                   data-rule="minlen:1" data-msg="First name cannot be empty." />
@@ -93,19 +93,15 @@
                   data-rule="minlen:8" data-msg="Invalid Password. Please enter at least 8 characters." />
                 <div class="validate"></div>
               </div>
+
               <div class="form-group mt-3">
-                <input type="password" class="form-control" name="confirmpassword" id="confirmpassword"
-                  placeholder="Confirm Password" data-rule="minlen:8"
-                  data-msg="Invalid Password. Please enter at least 8 characters." />
+                <input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" 
+                data-rule ="minlen:8" data-msg="Invalid Password. Please enter at least 8 characters."/>
                 <div class="validate"></div>
+                <div id="wrongpass"></div>
               </div>
 
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">You have signed up! Please Log In.</div>
-              </div>
-              <div class="text-center"><button type="submit">Sign Up</button></div>
+              <div class="text-center"><button onClick="SignUp()" type="submit">Sign Up</button></div>
             </form>
             <!-- ======= End Sign Up Form ======= -->
           </div>
@@ -152,6 +148,50 @@
 
   <!-- JavaScript File -->
   <script src="../javascript/main.js"></script>
+  <script src="../javascript/md5.js"></script>
+
+  <script>
+    function SignUp(){
+      document.getElementById("wrongpass").innerText = ""
+      var firstName = document.getElementById("firstname");
+      var lastName = document.getElementById("lastname");
+      var university = document.getElementById("university");
+      var email = document.getElementById("email");
+      var password = document.getElementById("password");
+      var confirmpassword = document.getElementById("confirmpassword");
+
+      if(firstName.value !== "" && lastName.value !== "" && university.value !== "" && email.value !== "" && password.value !== "" && confirmpassword.value !== ""){
+        if(password.value !== confirmpassword.value){
+           document.getElementById("wrongpass").innerText = "Passwords do not match."
+        } else {
+            alert("signing up!");
+            var hashedpassword = md5(password.value);
+
+            var signupData = {"firstName": firstName.value, "lastName": lastName.value, "university": university.value, "email": email.value,"password": hashedpassword}
+            var jsonSend = JSON.stringify(signupData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/signup.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                  alert("Sign up successful! Please Log In.")
+                  location.href = "login.html";
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
+          }
+      }  
+  }
+
+  </script>
 
 </body>
 
