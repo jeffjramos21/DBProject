@@ -148,30 +148,23 @@
                 <input type="text" class="form-control" id="eventaddr" placeholder="4000 Central Florida Blvd">
               </div>
 
-              <div class="form-group">
-                <label for="eventcity">City</label>
-                <input type="text" id="eventcity" name="eventcity" , placeholder="Orlando">
-              </div>
-
               <div class="row">
                 <div class="col-50">
                   <div class="form-group">
-                    <label for="eventstate">State</label>
-                    <input type="text" id="eventstate" name="eventstate" , placeholder="FL">
+                    <label for="eventlat">Latitude</label>
+                    <input type="text" id="eventlat" name="eventlat">
                   </div>
                 </div>
 
                 <div class="col-50">
                   <div class="form-group">
-                    <label for="eventzip">Zip Code</label>
-                    <input type="text" id="eventzip" name="eventzip" , placeholder="32816">
+                    <label for="eventlng">Longitude</label>
+                    <input type="text" id="eventlng" name="eventlng">
                   </div>
                 </div>
               </div>
-
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14011.667415319527!2d-81.19406006020999!3d28.602271071205926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1614161959684!5m2!1sen!2sus"
-                width="532" height="293" style="border:0; margin-top: 15px;" allowfullscreen="" loading="lazy"></iframe>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmxPX7Pb3h2-wQ0uPvdG6maJ2sCbrr0RY&callback=initMap" async defer></script>
+              <div id="map-canvas"></div>
             </div>
           </div>
 
@@ -212,17 +205,16 @@
       var eventPhone = document.getElementById("eventphone").value;
       var description = document.getElementById("eventdescription").value;
       var address = document.getElementById("eventaddr").value;
-      var city = document.getElementById("eventcity").value;
-      var state = document.getElementById("eventstate").value;
-      var zip = document.getElementById("eventzip").value;
+      var lng = document.getElementById("eventlng").value;
+      var lat = document.getElementById("eventlat").value;
 
       if(eventName === "" || date === "" || time === "" || eventEmail === "" || eventPhone === "" || description === "" || address === "" ||
-        city === "" || state === "" || zip === ""){
+         lng === "" || lat === ""){
           var error = document.getElementById("errormsg");
           error.innerText = "All fields must be filled in."
       } else {
         var createEventData = { "userID": userID, "eventName": eventName, "type": eventType, "category": eventCat, "date": date, "time": time, 
-        "email": eventEmail, "phone": eventPhone, "description": description, "address": address, "city": city, "state": state, "zip": zip }
+        "email": eventEmail, "phone": eventPhone, "description": description, "address": address, "lat": lat, "lng": lng}
           var jsonSend = JSON.stringify(createEventData);
           console.log('JSON SENDING:' + jsonSend);
 
@@ -235,7 +227,6 @@
               if (xhr.status === 200) {
                 console.log(this.response);
                 console.log(this.responseText);
-
               }
             }
           };
@@ -244,10 +235,29 @@
           var created = document.getElementById("createsuccess");
                 created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New event creation has been received.' +
                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-      }
-      
-     
+      }   
   }
+
+  function initMap() {
+  var myOptions = {
+      zoom: 15,
+      center: new google.maps.LatLng(28.6035671378552, -81.20012833505031)
+    },
+    map = new google.maps.Map(document.getElementById('map-canvas'), myOptions),
+    marker = new google.maps.Marker({map: map,}),
+    infowindow = new google.maps.InfoWindow;
+    map.addListener('rightclick', function(e) {
+    map.setCenter(e.latLng);
+    marker.setPosition(e.latLng);
+    infowindow.setContent("Latitude: " + e.latLng.lat() +
+      "<br>" + "Longitude: " + e.latLng.lng());
+    infowindow.open(map, marker);
+    var lat = e.latLng.lat();
+    var lng = e.latLng.lng();
+    document.getElementById("eventlat").value = lat;
+    document.getElementById("eventlng").value = lng;
+  });
+}
 
   </script>
 
