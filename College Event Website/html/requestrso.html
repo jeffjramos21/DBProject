@@ -160,7 +160,7 @@
         if (memEmail2.substr((memEmail2.indexOf("@") + 1)) === domain && memEmail3.substr((memEmail3.indexOf("@") + 1)) === domain && memEmail4.substr((memEmail4.indexOf("@") + 1)) === domain &&
           memEmail5.substr((memEmail5.indexOf("@") + 1)) === domain) {
 
-          var requestRSO = { "userID": userID, "rsoName": rsoName, "description": description, "admin": adminEmail, "mem1": memEmail2, "mem2": memEmail3, "mem3": memEmail4, "mem4": memEmail5 }
+          var requestRSO = { "userID": userID, "rsoName": rsoName, "university": university, "description": description, "admin": adminEmail, "mem1": memEmail2, "mem2": memEmail3, "mem3": memEmail4, "mem4": memEmail5 }
           var jsonSend = JSON.stringify(requestRSO);
           console.log('JSON SENDING:' + jsonSend);
 
