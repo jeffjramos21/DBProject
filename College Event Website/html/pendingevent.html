@@ -30,7 +30,7 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="javascript:getPendingEvents()">
   <!-- Side Bar-->
   <div id="mySidenav" class="sidenav">
     <div id="logo">
@@ -40,6 +40,7 @@
     <a href="createuni.html">Create University Profile</a>
     <div id="sidebar-active"><a href="pendingevent.html">Check Pending Events</a></div>
     <a href="pendingrso.html">Check Pending RSO Requests</a>
+    <a href="universityList.html">View University Profiles</a>
     <a href="checkevents.html">Check Current Events</a>
     <a href="../index.html">Log Out</a>
   </div>
@@ -49,6 +50,7 @@
   <section id="pendingevent" class="padd-section">
 
     <div class="container">
+      <div id="createsuccess"></div>
       <div class="section-title text-center">
         <h2>Pending Events</h2>
       </div>
@@ -90,11 +92,13 @@
 
   <!-- DATA JAVASCRIPT-->
   <script>
+    var userID = 1;
     jcontent4 = {
+      "PendingEventID": [0,1,2],
       "EventName": ["Knights Write 2021", "Yoga and Hiking", "PokeKnights: Virtual Club Meetings"],
       "Date": ["2/24/2021", "2/22/2021", "2/22/2021"],
       "Time": ["10:30 AM", "8:00 AM", "5:00 PM"],
-      "Location": ["Virtual", "Lake Claire Recreational Area", "Virtual"],
+      "Address": ["Virtual", "Lake Claire Recreational Area", "Virtual"],
       "EventType": ["Public", "Public", "RSO"],
       "EventCat": ["Academic", "Recreation & Exercise", "Social Event"],
       "Phone": ["407-823-2000", "407-823-2001", "407-823-2002"],
@@ -111,17 +115,78 @@
       document.getElementById('accordion').appendChild(pending)
       pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
         jcontent4.EventName[i] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>Date: </b>' + jcontent4.Date[i] +
-        '<br /><b>Time: </b>' + jcontent4.Time[i] + '<br /><b>Location: </b>' + jcontent4.Location[i] + '<br /><b>Event Type: </b>' + jcontent4.EventType[i] + '<br /><b>Event Category: </b>' + jcontent4.EventCat[i] +
+        '<br /><b>Time: </b>' + jcontent4.Time[i] + '<br /><b>Location: </b>' + jcontent4.Address[i] + '<br /><b>Event Type: </b>' + jcontent4.EventType[i] + '<br /><b>Event Category: </b>' + jcontent4.EventCat[i] +
         '<br /><b>Contact Phone Number: </b>' + jcontent4.Phone[i] + '<br /><b>Contact E-mail: </b>' + jcontent4.Email[i] + '<br /><b>Description: </b>' + jcontent4.Description[i] +
-        '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve()">Approve</button><button class="btndeny", onclick="Deny()">Deny</button></div></div></div></div>'
+        '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + jcontent4.PendingEventID[i] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + jcontent4.PendingEventID[i] + '\')">Deny</button></div></div></div></div>'
     }
 
-    function Approve() {
-      alert('Approved!');
+    function getPendingEvents() {
+      var pendingEvent = {"userID": userID}
+            var jsonSend = JSON.stringify(pendingEvent);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/getPendingEvents.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
     }
 
-    function Deny() {
-      alert('Denied!');
+    function Approve(pendingID) {
+      var approveEvent = {"userID": userID, "pendingEventID": pendingID}
+            var jsonSend = JSON.stringify(approveEvent);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/approveEvent.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                  var created = document.getElementById("createsuccess");
+                created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Event approved! Refresh page to see new changes.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
+    }
+
+    function Deny(pendingID) {
+      var denyEvent = {"userID": userID, "pendingEventID": pendingID}
+            var jsonSend = JSON.stringify(denyEvent);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/denyEvent.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                  var created = document.getElementById("createsuccess");
+                created.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">Event denied! Refresh page to see new changes.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
     }
 
   </script>

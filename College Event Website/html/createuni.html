@@ -25,7 +25,18 @@
   <link href="../vendor/aos/aos.css" rel="stylesheet">
 
   <!-- CSS File -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link href="../css/style.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -38,6 +49,7 @@
     <div id="sidebar-active"><a href="createuni.html">Create University Profile</a></div>
     <a href="pendingevent.html">Check Pending Events</a>
     <a href="pendingrso.html">Check Pending RSO Requests</a>
+    <a href="universityList.html">View University Profiles</a>
     <a href="checkevents.html">Check Current Events</a>
     <a href="../index.html">Log Out</a>
   </div>
@@ -47,6 +59,7 @@
   <section id="createuni" class="padd-section">
 
     <div class="container">
+      <div id="createsuccess"></div>
       <div class="section-title text-center">
         <h2>Create New University Profile Form</h2>
       </div>
@@ -61,8 +74,8 @@
               </div>
 
               <div class="form-group">
-                <label for="adress">Address</label>
-                <input type="text" id="adress" name="address" placeholder="4000 Central Florida Blvd">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="4000 Central Florida Blvd">
               </div>
 
               <div class="form-group">
@@ -89,7 +102,7 @@
             <div class="col-lg-5 col-md-8">
               <div class="form-group">
                 <label for="description">University's Description</label>
-                <textarea id="description" name="description" rows="5" cols="70"
+                <textarea id="description" name="description" rows="6" cols="70"
                   placeholder="Research university set on 1,415 acres with a lake and woodlands."></textarea>
               </div>
 
@@ -99,7 +112,8 @@
               </div>
             </div>
           </div>
-          <div class="button"><button type="submit">Submit</button></div>
+          <div id="errormsg"></div>
+          <div class="button"><button onClick="CreateUni()" type="submit">Submit</button></div>
         </div>
       </div>
     </div>
@@ -119,6 +133,50 @@
 
   <!-- JavaScript File -->
   <script src="../javascript/main.js"></script>
+
+  <script>
+    var userID = 1;
+
+ function CreateUni(){
+      var error = document.getElementById("errormsg");
+      error.innerText = "";
+      
+      var uniName = document.getElementById("uniname").value;
+      var address = document.getElementById("address").value;
+      var city = document.getElementById("city").value;
+      var state = document.getElementById("state").value;
+      var zip = document.getElementById("zip").value;
+      var description = document.getElementById("description").value;
+      var pop = document.getElementById("population").value;
+
+      if(uniName === "" || address === "" || city === "" || state === "" || zip === "" || description === "" || pop === ""){
+          var error = document.getElementById("errormsg");
+          error.innerText = "All fields must be filled in."
+      } else {
+        var createUniData = { "userID": userID, "uniName": uniName, "address": address, "state": state, "zip": zip, "description": description, "population": pop}
+          var jsonSend = JSON.stringify(createUniData);
+          console.log('JSON SENDING:' + jsonSend);
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'http://localhost/collegewebsite/api/createuniversity.php', true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                console.log(this.response);
+                console.log(this.responseText);
+                var created = document.getElementById("createsuccess");
+                created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New University Profile has been Created.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+              }
+            }
+          };
+
+          xhr.send(jsonSend);
+      }   
+  }
+  </script>
 
 </body>
 

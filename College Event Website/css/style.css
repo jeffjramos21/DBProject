@@ -645,8 +645,8 @@ span {
   position: relative;
   width: 100%;
   margin-top: 100px;
-  margin-bottom: 225px;
-  margin-left: 235px;
+  margin-bottom: 50px;
+  margin-left: 100px;
 }
 
 #admin .block-admin .table {
@@ -846,6 +846,12 @@ span {
   margin-left: 3px;
 }
 
+#createuni #errormsg{
+  color: red;
+  margin-right: 220px;
+  margin-top: 10px;
+}
+
 /*--------------------------------------------------------------
 # Create New Event Section
 --------------------------------------------------------------*/
@@ -913,8 +919,9 @@ span {
   padding: 10px 50px;
   color: gold;
   transition: 0.4s;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-right: 225px;
+  margin-bottom: 25px;
 }
 
 #createevent button[type="submit"]:hover {
@@ -939,6 +946,11 @@ span {
 
 #createevent select {
   height: max-content;
+}
+
+#map-canvas {
+  height: 64%;
+  width: 100%;
 }
 
 /*--------------------------------------------------------------
@@ -1572,4 +1584,41 @@ span {
 #testcomment label.star:before {
   content: '\f006';
   font-family: FontAwesome;
+}
+
+/*--------------------------------------------------------------
+# View University
+--------------------------------------------------------------*/
+#viewAUni {
+  background: #fff;
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+#viewAUni h1 {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 56px;
+  margin-bottom: 75px;
+  color:black;
+  font-family: "Philosopher", sans-serif;
+}
+
+#viewAUni p {
+  color: black;
+  margin-bottom: 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+#viewAUni b{
+  font-weight: bold;
 }
