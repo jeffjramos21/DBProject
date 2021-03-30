@@ -30,7 +30,7 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="javascript:getPendingRSO()">
   <!-- Side Bar-->
   <div id="mySidenav" class="sidenav">
     <div id="logo">
@@ -40,6 +40,7 @@
     <a href="createuni.html">Create University Profile</a>
     <a href="pendingevent.html">Check Pending Events</a>
     <div id="sidebar-active"><a href="pendingrso.html">Check Pending RSO Requests</a></div>
+    <a href="universityList.html">View University Profiles</a>
     <a href="checkevents.html">Check Current Events</a>
     <a href="../index.html">Log Out</a>
   </div>
@@ -49,6 +50,7 @@
   <section id="pendingevent" class="padd-section">
 
     <div class="container">
+      <div id="createsuccess"></div>
       <div class="section-title text-center">
         <h2>Pending RSO Requests</h2>
       </div>
@@ -90,7 +92,9 @@
 
   <!-- DATA JAVASCRIPT-->
   <script>
+    var userID = 1;
     jcontent4 = {
+      "PendingRSOid": [0,1],
       "University": ["University of Central Florida", "University of Central Florida"],
       "RSOName": ["American Concrete Institute", "Car Club"],
       "Admin": ["adminamerican@knights.ucf.edu","admincar@knights.ucf.edu"],
@@ -110,15 +114,76 @@
         jcontent4.RSOName[i] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>University Name: </b>' + jcontent4.University[i] +
         '<br /><b>Admin Email: </b>' + jcontent4.Admin[i] + '<br /><b>Contact Email #2: </b>' + jcontent4.email2[i] + '<br /><b>Contact Email #3: </b>' 
         + jcontent4.email3[i] + '<br /><b>Contact Email #4: </b>' + jcontent4.email4[i] + '<br /><b>Contact Email #5: </b>' + jcontent4.email5[i] + '<br /><b>RSO Description: </b>' + jcontent4.Description[i] +
-        '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve()">Approve</button><button class="btndeny", onclick="Deny()">Deny</button></div></div></div></div>'
+        '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + jcontent4.PendingRSOid[i] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + jcontent4.PendingRSOid[i] + '\')">Deny</button></div></div></div></div>'
     }
 
-    function Approve() {
-      alert('Approved!');
+    function getPendingRSO() {
+      var pendingRSO = {"userID": userID}
+            var jsonSend = JSON.stringify(pendingRSO);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/getPendingRSO.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
     }
 
-    function Deny() {
-      alert('Denied!');
+    function Approve(pendingID) {
+      var approveRSO = {"userID": userID, "pendingRSOid": pendingID}
+            var jsonSend = JSON.stringify(approveRSO);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/approveRSO.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                  var created = document.getElementById("createsuccess");
+                created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">RSO approved! Refresh page to see new changes.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
+    }
+
+    function Deny(pendingID) {
+      var denyRSO = {"userID": userID, "pendingRSOid": pendingID}
+            var jsonSend = JSON.stringify(denyRSO);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/denyRSO.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                  var created = document.getElementById("createsuccess");
+                created.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">RSO denied! Refresh page to see new changes.' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
     }
 
   </script>

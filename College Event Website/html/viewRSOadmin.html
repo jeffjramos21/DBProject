@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>College Event Website | View RSO</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../images/favicon1.ico" rel="icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../vendor/modal-video/css/modal-video.min.css" rel="stylesheet">
+    <link href="../vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../vendor/aos/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../css/style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body onload="javascript:getData()">
+    <!-- Side Bar-->
+    <div id="mySidenav" class="sidenav">
+        <div id="logo">
+          <a href="../index.html"><img src="../images/logo.png" alt="" title="" /></a>
+        </div>
+        <a href="admin.html">Dashboard</a>
+        <a href="rsoAdminOf.html">Admin RSO</a>
+        <a href="rsoAdmin.html">My RSO</a>
+        <a href="createeventAdmin.html">Create Event</a>
+        <a href="checkeventsAdmin.html">Check Current Events</a>
+        <div id="sidebar-active"><a href="searchRSOAdmin.html">Search RSO</a></div>
+        <a href="../index.html">Log Out</a>
+      </div>
+    <!-- End Side Bar-->
+
+    <!-- ======= View Specific RSO Section ======= -->
+    <section id="viewAnRSO" class="section-with-bg">
+        <div class="container">
+            <div id="joinsuccess"></div>
+            <div id="viewRSO">
+
+
+            </div>
+        </div>
+    </section>
+    <!-- ======= End Specific RSO Section ======= -->
+
+
+    <!-- Vendor JS Files -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="../vendor/php-email-form/validate.js"></script>
+    <script src="../vendor/modal-video/js/modal-video.min.js"></script>
+    <script src="../vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="../vendor/superfish/superfish.min.js"></script>
+    <script src="../vendor/hoverIntent/hoverIntent.js"></script>
+    <script src="../vendor/aos/aos.js"></script>
+
+    <!-- JavaScript File -->
+    <script src="../javascript/main.js"></script>
+
+    <script>
+        var userID = 1;
+        var jcontent7 = {
+            "ID": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "RSO": ["3D Printing and Design", "Biology Graduate Student Association", "Girl Up Orlando", "Holmes Scholars Program",
+                "Latino Medical Student Association", "Modeling and Simulation Knights", "ONE at UCF", "Photonics Society",
+                "Scientista", "Team Sport Business Management"],
+            "Description": ["The mission of 3D-PaD is to make 3D printing and 3D design available to all students at UCF. We teach all skill levels the essentials of 3D modeling and printing and offer 3D printers for both academic and personal use.",
+                "To provide opportunities for UCF biology students to participate in extracurricular activities in Biology.", "Girl Up Orlando is an organization that strives to empower students by channeling their energy and compassion to raise awareness for the United Nations initiatives that help hard to reach adolescent girls.",
+                "The Holmes Scholars is organized for four primary purposes:To work toward the diversification of faculty and students in Schools and Colleges of Education and of K-12 teachers and administrators and to represent the interest and voices of the Holmes Scholars campus-wide.",
+                "The Latino Medical Student Association at UCF unites and empowers pre-health students through service, mentorship and education to advocate for the health of the Latino community.",
+                "MaSK (Modeling and Simulation Knights) is graduate student organization at UCF for students in the School of Modeling, Simulation, & Training and other related STEM fields to collaborate, network, and socialize within the organization and with other members of the simulation community.",
+                "ONE at UCF Chapter advocates to end extreme poverty and preventable disease worldwide while bringing awareness and advocacy for aids and malaria in Sub-Saharan Africa.",
+                "", "The mission of this organization is to empower women majoring in Science, Technology, Engineering, Mathematics, and Medicine (STEMM) by providing a strong campus community, online resources, and visible role models.",
+                "Student Organization of the DeVos Sport Business Management Program."],
+            "Admin": ["3dprinting@knights.ucf.edu", "biology@knights.ucf.edu", "girlup@knights.ucf.edu", "holmes@knights.ucf.edu", "latinomed@knights.ucf.edu", "modeling@knights.ucf.edu", "one@knights.ucf.edu",
+                "photonics@knights.ucf.edu", "scientista@knights.ucf.edu", "sports@knights.ucf.edu"]
+        }
+
+        const clickedID = localStorage.getItem('clickedID');
+        var RSO = document.getElementById("viewRSO");
+        RSO.innerHTML = '<h1>' + jcontent7.RSO[clickedID] + '</h1><a href="#" class="btn" onclick="JoinRSO()">Join</a><div class="col-sm-8"><p><b>Description: </b>' + jcontent7.Description[clickedID] +
+            '</p><br/><p><b>Admin Contact Email: </b>' + jcontent7.Admin[clickedID] + '</p></div>';
+
+
+
+        function getData() {
+            var rsoData = { "userID": userID, "rsoID": clickedID }
+            var jsonSend = JSON.stringify(rsoData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/rsodetails.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+
+        function JoinRSO() {
+            var joinRSO = { "userID": userID, "rsoID": clickedID }
+            var jsonSend = JSON.stringify(joinRSO);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/joinrso.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                        var joined = document.getElementById("joinsuccess");
+                        joined.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Joined RSO.' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+    </script>
+</body>
+
+</html>

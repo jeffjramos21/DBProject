@@ -28,16 +28,18 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body onload="javascript:getData(), filterSelection('all')">
+<body onload="javascript:getDataToday(), getDataAll(), filterSelection('all')">
   <!-- Side Bar-->
   <div id="mySidenav" class="sidenav">
     <div id="logo">
       <a href="../index.html"><img src="../images/logo.png" alt="" title="" /></a>
     </div>
     <a href="admin.html">Dashboard</a>
+    <a href="rsoAdminOf.html">Admin RSO</a>
     <a href="rsoAdmin.html">My RSO</a>
     <a href="createeventAdmin.html">Create Event</a>
     <div id="sidebar-active"><a href="checkeventsAdmin.html">Check Current Events</a></div>
+    <a href="searchRSOAdmin.html">Search RSO</a>
     <a href="../index.html">Log Out</a>
   </div>
   <!-- End Side Bar-->
@@ -294,14 +296,35 @@ function viewEvent(eventID){
 }
 }
 
-function getData(){
+function getDataToday(){
   var eventData = {"userID": userID}
   console.log(userID);
             var jsonSend = JSON.stringify(eventData);
             console.log('JSON SENDING:' + jsonSend);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/getevents.php', true);
+            xhr.open('POST', 'http://localhost/collegewebsite/api/geteventsToday.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  console.log(this.response);
+                  console.log(this.responseText);
+                }
+              }
+            };
+
+            xhr.send(jsonSend);  
+  }
+
+  function getDataAll(){
+  var eventData = {"userID": userID}
+            var jsonSend = JSON.stringify(eventData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/geteventsAll.php', true);
             xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function () {

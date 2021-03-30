@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>College Event Website | Search RSO</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../images/favicon1.ico" rel="icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../vendor/modal-video/css/modal-video.min.css" rel="stylesheet">
+    <link href="../vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../css/style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body onload="javascript:getData()">
+  <!-- Side Bar-->
+  <div id="mySidenav" class="sidenav">
+    <div id="logo">
+      <a href="../index.html"><img src="../images/logo.png" alt="" title="" /></a>
+    </div>
+    <a href="admin.html">Dashboard</a>
+    <a href="rsoAdminOf.html">Admin RSO</a>
+    <a href="rsoAdmin.html">My RSO</a>
+    <a href="createeventAdmin.html">Create Event</a>
+    <a href="checkeventsAdmin.html">Check Current Events</a>
+    <div id="sidebar-active"><a href="searchRSOAdmin.html">Search RSO</a></div>
+    <a href="../index.html">Log Out</a>
+  </div>
+  <!-- End Side Bar-->
+
+    <!-- ======= Admin - Search RSO Section ======= -->
+    <section id="searchrso" class="section-with-bg">
+        <div class="container">
+            <div id="joinsuccess"></div>
+            <h1>Search RSOs</h1>
+
+            <input type="text" id="myInput" onkeyup="searchRSO()" placeholder="Search for RSO" title="Type in a name">
+
+            <table id="myTable">
+                <tr class="header">
+                    <th>RSO</th>
+                </tr>
+                <tbody>
+                    <!-- New rows will be created and filled with data -->
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+    <!-- ======= End Search RSO Section ======= -->
+
+    <div id="storage" style="display:none;"> </div>
+
+    <!-- Vendor JS Files -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="../vendor/php-email-form/validate.js"></script>
+    <script src="../vendor/modal-video/js/modal-video.min.js"></script>
+    <script src="../vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="../vendor/superfish/superfish.min.js"></script>
+    <script src="../vendor/hoverIntent/hoverIntent.js"></script>
+    <script src="../vendor/aos/aos.js"></script>
+
+    <!-- JavaScript File -->
+    <script src="../javascript/main.js"></script>
+
+    <!-- DATA JAVASCRIPT-->
+    <script>
+        var userID = 1;
+        var jcontent1 = {
+            "ID": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "RSO": ["3D Printing and Design", "Biology Graduate Student Association", "Girl Up Orlando", "Holmes Scholars Program",
+                "Latino Medical Student Association", "Modeling and Simulation Knights", "ONE at UCF", "Photonics Society",
+                "Scientista", "Team Sport Business Management"]
+        }
+
+        for (var i = 0; i < jcontent1.RSO.length; i++) {
+            var table = document.getElementById("myTable");
+            var row = table.insertRow(i + 1);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = '<a href="#" onclick="selectRSO(\'' + jcontent1.ID[i] + '\')">' + jcontent1.RSO[i] + '</a><a href="#" class="btn" onclick="JoinRSO(\'' + jcontent1.ID[i] + '\')">Join</a>';
+        }
+
+        function getData() {
+            var rsoData = { "userID": userID }
+            var jsonSend = JSON.stringify(rsoData);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/newrso.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+
+        function JoinRSO(rsoID) {
+            var joinRSO = { "userID": userID, "rsoID": rsoID }
+            var jsonSend = JSON.stringify(joinRSO);
+            console.log('JSON SENDING:' + jsonSend);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/joinrso.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(this.response);
+                        console.log(this.responseText);
+                        var joined = document.getElementById("joinsuccess");
+                        joined.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Joined RSO. Refresh page to see new changes.' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    }
+                }
+            };
+
+            xhr.send(jsonSend);
+        }
+
+        function selectRSO(rsoID) {
+            localStorage.clear();
+            for (var i = 0; i < jcontent1.ID.length; i++) {
+                if (jcontent1.ID[i] == rsoID) {
+                    localStorage.setItem('clickedID', rsoID);
+                    window.location.href = "viewRSOadmin.html";
+                }
+            }
+        }
+    </script>
+    <!-- End DATA JAVASCRIPT-->
+
+</body>
+
+</html>

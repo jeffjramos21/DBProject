@@ -28,7 +28,7 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="javascript:LoadUniversities()">
 
   <!-- ======= Header ======= -->
   <header id="header" class="header">
@@ -78,9 +78,16 @@
                   data-rule="minlen:1" data-msg="Last name cannot be empty." />
                 <div class="validate"></div>
               </div>
+
+              <div class="form-group">
+              <select class="form-control" id="university", placeholder="University">
+                <option value="" disabled selected>University Name</option>
+              </select>
+              </div>
+
               <div class="form-group mt-3">
-                <input type="text" name="university" class="form-control" id="university" placeholder="University Name"
-                  data-rule="minlen:1" data-msg="University name cannot be empty." />
+                <input type="text" name="uniID" class="form-control" id="uniID" placeholder="ID"
+                  data-rule="minlen:1" data-msg="ID cannot be empty." />
                 <div class="validate"></div>
               </div>
               <div class="form-group mt-3">
@@ -151,23 +158,54 @@
   <script src="../javascript/md5.js"></script>
 
   <script>
+
+    var jcontent = {
+      "uniID": [1, 2, 3],
+      "RSO": ["University of Central Florida", "University of Florida", "Florida State University"]
+    }
+
+    for (var i = 0; i < jcontent.uniID.length; i++) {
+      var uni = document.createElement('option');
+      uni.id = "university";
+      document.getElementById('university').appendChild(uni)
+      uni.innerHTML = '<option value="\'' + jcontent.RSO[i] + '\'">' + jcontent.RSO[i]+ '</option>';
+    }
+
+    function LoadUniversities() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost/collegewebsite/api/getuni.php', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            console.log(this.response);
+            console.log(this.responseText);
+          }
+        }
+      };
+
+      xhr.send();
+    }
+
     function SignUp(){
       document.getElementById("wrongpass").innerText = ""
       var firstName = document.getElementById("firstname");
       var lastName = document.getElementById("lastname");
-      var university = document.getElementById("university");
+      var university = document.getElementById("university").value;
+      var uniID = document.getElementById("uniID");
       var email = document.getElementById("email");
       var password = document.getElementById("password");
       var confirmpassword = document.getElementById("confirmpassword");
 
-      if(firstName.value !== "" && lastName.value !== "" && university.value !== "" && email.value !== "" && password.value !== "" && confirmpassword.value !== ""){
+      if(firstName.value !== "" && lastName.value !== "" && university !== "" && uniID.value !== "" && email.value !== "" && password.value !== "" && confirmpassword.value !== ""){
         if(password.value !== confirmpassword.value){
            document.getElementById("wrongpass").innerText = "Passwords do not match."
         } else {
             alert("signing up!");
             var hashedpassword = md5(password.value);
 
-            var signupData = {"firstName": firstName.value, "lastName": lastName.value, "university": university.value, "email": email.value,"password": hashedpassword}
+            var signupData = {"firstName": firstName.value, "lastName": lastName.value, "university": university, "uniID": uniID.value, "email": email.value,"password": hashedpassword}
             var jsonSend = JSON.stringify(signupData);
             console.log('JSON SENDING:' + jsonSend);
 

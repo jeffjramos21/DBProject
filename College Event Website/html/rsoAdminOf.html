@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>College Event Website | My RSO</title>
+  <title>College Event Website | Admin RSO</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -39,15 +39,15 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body onload="javascript:GetMyRSO()">
+<body onload="javascript:GetAdminRSO()">
     <!-- Side Bar-->
     <div id="mySidenav" class="sidenav">
         <div id="logo">
             <a href="../index.html"><img src="../images/logo.png" alt="" title="" /></a>
         </div>
         <a href="admin.html">Dashboard</a>
-        <a href="rsoAdminOf.html">Admin RSO</a>
-        <div id="sidebar-active"><a href="rsoAdmin.html">My RSO</a></div>
+        <div id="sidebar-active"><a href="rsoAdminOf.html">Admin RSO</a></div>
+        <a href="rsoAdmin.html">My RSO</a>
         <a href="createeventAdmin.html">Create Event</a>
         <a href="checkeventsAdmin.html">Check Current Events</a>
         <a href="searchRSOAdmin.html">Search RSO</a>
@@ -59,13 +59,13 @@
   <section id="rso" class="section-with-bg">
     <div class="container">
       <div id="leftRSO"></div>
-      <h1>My RSO</h1>
+      <h1>Admin's RSO</h1>
 
       <table class="table" id="AdminRSOtable">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Registered Student Organizations</th>
+            <th scope="col">Admin RSO</th>
           </tr>
         </thead>
         <tbody>
@@ -95,17 +95,17 @@
   <script>
         var userID = 1;
         var jcontent = {
-            "rsoID": [6,7,8],
-            "RSO": ["4Ever Knights", "Active Minds", "Actuarial Science Club"]
+            "rsoID": [9,10],
+            "RSO": ["Access at UCF", "Astronomy Society"]
         }
 
-    function GetMyRSO() {
+    function GetAdminRSO() {
       var myRSOdata = { "userID": userID };
       var jsonSend = JSON.stringify(myRSOdata);
       console.log('JSON SENDING:' + jsonSend);
 
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost/collegewebsite/api/myrso.php', true);
+      xhr.open('POST', 'http://localhost/collegewebsite/api/adminrso.php', true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
@@ -119,32 +119,6 @@
 
       xhr.send(jsonSend);
     }
-
-    function LeaveRSO(rsoID) {
-      var leaveRSOdata = { "userID": userID, "rsoID": rsoID };
-      var jsonSend = JSON.stringify(leaveRSOdata);
-      console.log('JSON SENDING:' + jsonSend);
-
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost/collegewebsite/api/leaverso.php', true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            console.log(this.response);
-            console.log(this.responseText);
-
-            var left = document.getElementById("leftRSO");
-            left.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">You have left the RSO. Refresh page to see new changes.' +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-          }
-        }
-      };
-
-      xhr.send(jsonSend);
-    }
-
 
     for (var i = 0; i < jcontent.RSO.length; i++) {
       var table = document.getElementById("AdminRSOtable");
@@ -152,7 +126,7 @@
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
       cell1.innerHTML = i + 1;
-      cell2.innerHTML = jcontent.RSO[i] + '<a href="#" class="btn" onclick="LeaveRSO(\'' + jcontent.rsoID[i] + '\')">Leave</a>';
+      cell2.innerHTML = jcontent.RSO[i];
     }
   </script>
   <!-- End DATA JAVASCRIPT -->
