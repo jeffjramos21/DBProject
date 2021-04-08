@@ -77,9 +77,7 @@
                 <div class="validate"></div>
               </div>
 
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-              </div>
+              <div id="error"></div>
               <div class="text-center"><button onClick="LogIn()" type="submit">Log In</button></div>
             </form>
             <!-- ======= End Log in Form ======= -->
@@ -138,18 +136,33 @@
         var loginData = {"email": email.value, "password": hashedpassword}
         var jsonSend = JSON.stringify(loginData);
         console.log('JSON SENDING:' + jsonSend);
-        alert("logging in!");
 
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'http://localhost/collegewebsite/api/login.php', true);
       xhr.setRequestHeader("Content-Type", "application/json");
-
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log(this.response);
-            console.log(this.responseText);
-            location.href = "student.html";
+            var jcontent = JSON.parse(this.responseText);
+            console.log(jcontent);
+
+            if(jcontent['error'] == null){
+              localStorage.setItem('userID', jcontent["User_ID"]);
+              localStorage.setItem('firstName', jcontent["first"]);
+              localStorage.setItem('lastName', jcontent["last"]);
+              localStorage.setItem('role', jcontent["role"]);
+
+              if(jcontent['role'] == 'S'){
+                location.href = "student.html";
+              } else if(jcontent['role'] == 'SA'){
+                location.href = "superadmin.html";
+              } else {
+                location.href = "admin.html";
+            }
+          } else {
+              var error = document.getElementById("error");
+                error.innerHTML = jcontent['error'];
+          }
           }
         }
       };
@@ -157,6 +170,9 @@
       xhr.send(jsonSend);  
       }
     }
+	
+	
+
   </script>
 
 </body>

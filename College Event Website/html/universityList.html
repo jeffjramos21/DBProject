@@ -53,7 +53,7 @@
           <a href="pendingrso.html">Check Pending RSO Requests</a>
           <div id="sidebar-active"><a href="universityList.html">View University Profiles</a></div>
           <a href="checkevents.html">Check Current Events</a>
-          <a href="../index.html">Log Out</a>
+          <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
     </div>
     <!-- End Side Bar-->
 
@@ -96,49 +96,38 @@
 
     <!-- DATA JAVASCRIPT-->
     <script>
-        var userID = 1;
-        var jcontent1 = {
-            "uniID": [0, 1, 2],
-            "Uni": ["University of Central Florida", "University of Florida", "Florida State University"]
-        }
-
-        for (var i = 0; i < jcontent1.uniID.length; i++) {
-            var table = document.getElementById("myTable");
-            var row = table.insertRow(i + 1);
-            var cell1 = row.insertCell(0);
-            cell1.innerHTML = '<a href="#" onclick="selectUni(\'' + jcontent1.uniID[i] + '\')">' + jcontent1.Uni[i] + '</a>';
-        }
+        const userID = localStorage.getItem('userID');
 
         function getData() {
-            var uniData = { "userID": userID }
-            var jsonSend = JSON.stringify(uniData);
-            console.log('JSON SENDING:' + jsonSend);
-
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/getUniList.php', true);
+            xhr.open('POST', 'http://localhost/collegewebsite/api/getUni.php', true);
             xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        console.log(this.response);
-                        console.log(this.responseText);
+                        var jcontent = JSON.parse(this.response);
+			                console.log(jcontent);
+
+                            for (var i = 0; i < jcontent['results'].length; i++) {
+                                var table = document.getElementById("myTable");
+                                var row = table.insertRow(i + 1);
+                                var cell1 = row.insertCell(0);
+                                cell1.innerHTML = '<a href="#" onclick="selectUni(\'' + jcontent['results'][i]['Uni_ID'] + '\')">' + jcontent['results'][i]['Name'] + '</a>';
+                             }
                     }
                 }
             };
 
-            xhr.send(jsonSend);
+            xhr.send();
         }
 
         function selectUni(uniID) {
-            localStorage.clear();
-            for (var i = 0; i < jcontent1.uniID.length; i++) {
-                if (jcontent1.uniID[i] == uniID) {
-                    localStorage.setItem('clickedUniID', uniID);
-                    window.location.href = "viewUni.html";
-                }
-            }
+            localStorage.removeItem('clickedUniID');
+            localStorage.setItem('clickedUniID', uniID);
+            window.location.href = "viewUni.html";
         }
+
     </script>
     <!-- End DATA JAVASCRIPT-->
 

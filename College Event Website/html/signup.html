@@ -25,7 +25,18 @@
   <link href="../vendor/aos/aos.css" rel="stylesheet">
 
   <!-- CSS File -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link href="../css/style.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
 </head>
 
 <body onload="javascript:LoadUniversities()">
@@ -52,12 +63,11 @@
     </div>
   </header><!-- End Header -->
 
-
-
   <!-- ======= Sign Up Section ======= -->
   <section id="signup" class="padd-section">
 
     <div class="container" data-aos="fade-up">
+
       <div class="section-title text-center">
         <h2>Sign Up</h2>
       </div>
@@ -108,7 +118,9 @@
                 <div id="wrongpass"></div>
               </div>
 
-              <div class="text-center"><button onClick="SignUp()" type="submit">Sign Up</button></div>
+              <div id="success"></div>
+              <div id="error"></div>
+              <div class="text-center"><button type="submit" onclick="SignUp()">Sign Up</button></div>
             </form>
             <!-- ======= End Sign Up Form ======= -->
           </div>
@@ -159,28 +171,23 @@
 
   <script>
 
-    var jcontent = {
-      "uniID": [1, 2, 3],
-      "RSO": ["University of Central Florida", "University of Florida", "Florida State University"]
-    }
-
-    for (var i = 0; i < jcontent.uniID.length; i++) {
-      var uni = document.createElement('option');
-      uni.id = "university";
-      document.getElementById('university').appendChild(uni)
-      uni.innerHTML = '<option value="\'' + jcontent.RSO[i] + '\'">' + jcontent.RSO[i]+ '</option>';
-    }
-
     function LoadUniversities() {
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost/collegewebsite/api/getuni.php', true);
+      xhr.open('POST', 'http://localhost/collegewebsite/api/getUni.php', true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log(this.response);
-            console.log(this.responseText);
+            var jcontent = JSON.parse(this.response);
+			console.log(jcontent);
+			    for (var i = 0; i < jcontent['results'].length; i++) {
+			  var uni = document.createElement('option');
+			  uni.id = "university";
+			  document.getElementById('university').appendChild(uni)
+			  uni.innerHTML = '<option value="\'' + jcontent['results'][i]['Uni_ID'] + '\'">' + jcontent['results'][i]['Name'] + '</option>';
+			}
+            
           }
         }
       };
@@ -193,19 +200,18 @@
       var firstName = document.getElementById("firstname");
       var lastName = document.getElementById("lastname");
       var university = document.getElementById("university").value;
-      var uniID = document.getElementById("uniID");
+      var studID = document.getElementById("uniID");
       var email = document.getElementById("email");
       var password = document.getElementById("password");
       var confirmpassword = document.getElementById("confirmpassword");
 
-      if(firstName.value !== "" && lastName.value !== "" && university !== "" && uniID.value !== "" && email.value !== "" && password.value !== "" && confirmpassword.value !== ""){
+      if(firstName.value !== "" && lastName.value !== "" && university !== "" && studID.value !== "" && email.value !== "" && password.value !== "" && confirmpassword.value !== ""){
         if(password.value !== confirmpassword.value){
            document.getElementById("wrongpass").innerText = "Passwords do not match."
         } else {
-            alert("signing up!");
             var hashedpassword = md5(password.value);
 
-            var signupData = {"firstName": firstName.value, "lastName": lastName.value, "university": university, "uniID": uniID.value, "email": email.value,"password": hashedpassword}
+            var signupData = {"firstName": firstName.value, "lastName": lastName.value, "university": university, "studID": studID.value, "email": email.value,"password": hashedpassword}
             var jsonSend = JSON.stringify(signupData);
             console.log('JSON SENDING:' + jsonSend);
 
@@ -216,18 +222,24 @@
             xhr.onreadystatechange = function () {
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                  console.log(this.response);
-                  console.log(this.responseText);
-                  alert("Sign up successful! Please Log In.")
-                  location.href = "login.html";
+                  var info = JSON.parse(this.responseText);
+
+                  if(info['info'] === "we did it!"){
+                    var success = document.getElementById("success");
+                        success.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Sign up successful! Please Log In.' +
+                          '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                  } else {
+                    var error = document.getElementById("error");
+                      error.innerHTML = info['info'];
+                  }
                 }
               }
             };
-
+          
             xhr.send(jsonSend);  
           }
       }  
-  }
+    }
 
   </script>
 

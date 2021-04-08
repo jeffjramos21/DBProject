@@ -28,7 +28,7 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body body onload="javascript:getDataAll(), getDataToday(), filterSelection('all')">
+<body onload="javascript:getDataAll(), getDataToday(), filterSelection('all')">
   <!-- Side Bar-->
   <div id="mySidenav" class="sidenav">
     <div id="logo">
@@ -40,7 +40,7 @@
     <a href="pendingrso.html">Check Pending RSO Requests</a>
     <a href="universityList.html">View University Profiles</a>
     <div id="sidebar-active"><a href="checkevents.html">Check Current Events</a></div>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -132,7 +132,7 @@ jcontent3 = {
 
 function viewEvent(eventID){
   console.log(eventID);
-  localStorage.clear();
+  localStorage.removeItem('clickedEventID');
 
   for (var i = 0; i < jcontent2.ID.length; i++) {
       if (jcontent2.ID[i] == eventID) {

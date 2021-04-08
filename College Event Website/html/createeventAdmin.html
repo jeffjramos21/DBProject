@@ -39,7 +39,7 @@
   crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body onload="javascript:GetRSO()">
   <!-- Side Bar-->
   <div id="mySidenav" class="sidenav">
     <div id="logo">
@@ -51,7 +51,7 @@
     <div id="sidebar-active"><a href="createeventAdmin.html">Create Event</a></div>
     <a href="checkeventsAdmin.html">Check Current Events</a>
     <a href="searchRSOAdmin.html">Search RSO</a>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -78,7 +78,7 @@
                 <div class="col-50">
                   <div class="form-group">
                     <label for="eventtype">Event Type</label>
-                    <select class="form-control" id="eventtype">
+                    <select class="form-control" id="eventtype" onchange="isRSO(this);">
                       <option value="Public">Public</option>
                       <option value="Private">Private</option>
                       <option value="RSO">RSO</option>
@@ -109,6 +109,18 @@
                     </select>
                   </div>
                 </div>
+              </div>
+
+              <div id="yesRSO" style="display: none;">
+                <div class="row">
+                    <div class="form-group">
+                      <label for="rsoName">RSO Name</label>
+                      <select class="form-control" id="rsoName">
+                        <option value="" disabled selected>RSO Name</option>
+
+                        </select>
+                      </div>
+                      </div> 
               </div>
 
               <div class="row">
@@ -193,7 +205,41 @@
   <script src="../javascript/main.js"></script>
 
   <script>
+  var jcontent = {
+            "rsoID": [6,7,8],
+            "RSO": ["4Ever Knights", "Active Minds", "Actuarial Science Club"]
+    }
+
+    for (var i = 0; i < jcontent.rsoID.length; i++) {
+			  var rsoList = document.createElement('option');
+			  rsoList.id = "rsoName";
+			  document.getElementById('rsoName').appendChild(rsoList)
+			  rsoList.innerHTML = '<option value="\'' + jcontent.rsoID[i] + '\'">' + jcontent.RSO[i]+ '</option>';
+    }
+
     var userID = 1;
+
+    function GetRSO() {
+      var myRSOdata = { "userID": userID };
+      var jsonSend = JSON.stringify(myRSOdata);
+      console.log('JSON SENDING:' + jsonSend);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost/collegewebsite/api/myrso.php', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            console.log(this.response);
+            console.log(this.responseText);
+          }
+        }
+      };
+
+      xhr.send(jsonSend);
+    }
+
     function createEventSubmit(){
       var error = document.getElementById("errormsg");
       error.innerText = "";
@@ -201,6 +247,7 @@
       var eventName = document.getElementById("eventname").value;
       var eventType = document.getElementById("eventtype").value;
       var eventCat = document.getElementById("category").value;
+      var rsoName = document.getElementById("rsoName").value;
       var date = document.querySelector('input[type="date"]').value;
       var time = document.querySelector('input[type="time"]').value;
       var eventEmail = document.getElementById("eventemail").value;
@@ -215,8 +262,9 @@
           var error = document.getElementById("errormsg");
           error.innerText = "All fields must be filled in."
       } else {
-        var createEventData = { "userID": userID, "eventName": eventName, "type": eventType, "category": eventCat, "date": date, "time": time, 
-        "email": eventEmail, "phone": eventPhone, "description": description, "address": address, "lat": lat, "lng": lng}
+          var createEventData = { "userID": userID, "eventName": eventName, "type": eventType, "rso": rsoName, "category": eventCat, "date": date, "time": time, 
+          "email": eventEmail, "phone": eventPhone, "description": description, "address": address, "lat": lat, "lng": lng}
+
           var jsonSend = JSON.stringify(createEventData);
           console.log('JSON SENDING:' + jsonSend);
 
@@ -259,6 +307,14 @@
     document.getElementById("eventlat").value = lat;
     document.getElementById("eventlng").value = lng;
   });
+}
+
+function isRSO(that){
+  if (that.value == "RSO") {
+        document.getElementById("yesRSO").style.display = "block";
+    } else {
+        document.getElementById("yesRSO").style.display = "none";
+    }
 }
 
   </script>
