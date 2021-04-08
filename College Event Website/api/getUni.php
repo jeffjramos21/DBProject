@@ -5,6 +5,7 @@
 
      $inData = getRequestInfo();
      $Name = "";
+     $User_ID = 0;
      $searchCount = 0;
      $searchResults = "";
 
