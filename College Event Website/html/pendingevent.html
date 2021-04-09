@@ -53,6 +53,7 @@
       <div id="createsuccess"></div>
       <div class="section-title text-center">
         <h2>Pending Events</h2>
+        <div id="errormsg"></div>
       </div>
 
       <div class="row">
@@ -92,57 +93,39 @@
 
   <!-- DATA JAVASCRIPT-->
   <script>
-    var userID = 1;
-    jcontent4 = {
-      "PendingEventID": [0,1,2],
-      "EventName": ["Knights Write 2021", "Yoga and Hiking", "PokeKnights: Virtual Club Meetings"],
-      "Date": ["2/24/2021", "2/22/2021", "2/22/2021"],
-      "Time": ["10:30 AM", "8:00 AM", "5:00 PM"],
-      "Address": ["Virtual", "Lake Claire Recreational Area", "Virtual"],
-      "EventType": ["Public", "Public", "RSO"],
-      "EventCat": ["Academic", "Recreation & Exercise", "Social Event"],
-      "Phone": ["407-823-2000", "407-823-2001", "407-823-2002"],
-      "Email": ["event1@knights.ucf.edu", "event2@knights.ucf.edu", "event3@knights.ucf.edu"],
-      "Description": ["This three-day virtual event celebrates outstanding writing and research by UCFstudents in ENC 1101 and 1102 and upper-division and graduate programs' writing and rhetoric courses.Knights Write 2021 spotlights the transformative nature of the first-year writing program at UCF forstudents from across the university and the powerful impact of advanced rhetorical study on students’research and writing abilities.",
-        "Lake Claire’s sandy shore is the best place on campus for a relaxing introduction toyoga! This is a great opportunity for you to learn about yoga,or have a great time with us even if you’re an experienced yogi! After a refreshing yoga session, we’llgo explore some of the incredible nature trails on campus and enjoy avery peaceful morning together!",
-        "Join us for fun Pokemon-themed activities online from the comfort and safety of yourhome. Open to all."
-      ]
-    }
-
-    for (var i = 0; i < jcontent4.EventName.length; i++) {
-      var pending = document.createElement('div');
-      pending.id = "accordion";
-      document.getElementById('accordion').appendChild(pending)
-      pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
-        jcontent4.EventName[i] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>Date: </b>' + jcontent4.Date[i] +
-        '<br /><b>Time: </b>' + jcontent4.Time[i] + '<br /><b>Location: </b>' + jcontent4.Address[i] + '<br /><b>Event Type: </b>' + jcontent4.EventType[i] + '<br /><b>Event Category: </b>' + jcontent4.EventCat[i] +
-        '<br /><b>Contact Phone Number: </b>' + jcontent4.Phone[i] + '<br /><b>Contact E-mail: </b>' + jcontent4.Email[i] + '<br /><b>Description: </b>' + jcontent4.Description[i] +
-        '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + jcontent4.PendingEventID[i] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + jcontent4.PendingEventID[i] + '\')">Deny</button></div></div></div></div>'
-    }
-
     function getPendingEvents() {
-      var pendingEvent = {"userID": userID}
-            var jsonSend = JSON.stringify(pendingEvent);
-            console.log('JSON SENDING:' + jsonSend);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/getPendingEvents.php', true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                  console.log(this.response);
-                  console.log(this.responseText);
-                }
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost/collegewebsite/api/getPendingEvents.php', true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+         if (xhr.readyState === 4) {
+           if (xhr.status === 200) {
+             var info = JSON.parse(this.response);
+             if(info['error'] == null){
+              for (var i = 0; i < info['info'].length; i++) {
+                var pending = document.createElement('div');
+                pending.id = "accordion";
+                document.getElementById('accordion').appendChild(pending)
+                pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
+                  info['info'][i]['Event Name'] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>Date: </b>' + info['info'][i]['date'] +
+                  '<br /><b>Time: </b>' + info['info'][i]['time'] + '<br /><b>Location: </b>' + info['info'][i]['address'] + '<br /><b>Event Type: </b>' + info['info'][i]['Event Type'] + '<br /><b>Event Category: </b>' + info['info'][i]['Event Category'] +
+                  '<br /><b>Contact Phone Number: </b>' + info['info'][i]['phone'] + '<br /><b>Contact E-mail: </b>' + info['info'][i]['email'] + '<br /><b>Description: </b>' + info['info'][i]['desc'] +
+                  '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + info['info'][i]['Event Name'] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + info['info'][i]['Event Name'] + '\')">Deny</button></div></div></div></div>'
               }
-            };
+             } else {
+              var error = document.getElementById("errormsg");
+                error.innerHTML = info['error'];
+             }
+                  
+            }
+          }
+      };
 
-            xhr.send(jsonSend);  
+            xhr.send();  
     }
 
-    function Approve(pendingID) {
-      var approveEvent = {"userID": userID, "pendingEventID": pendingID}
+    function Approve(pendingEvent) {
+      var approveEvent = {"pendingEvent": pendingEvent}
             var jsonSend = JSON.stringify(approveEvent);
             console.log('JSON SENDING:' + jsonSend);
 
@@ -153,7 +136,6 @@
             xhr.onreadystatechange = function () {
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                  console.log(this.response);
                   console.log(this.responseText);
                   var created = document.getElementById("createsuccess");
                 created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Event approved! Refresh page to see new changes.' +
@@ -165,8 +147,8 @@
             xhr.send(jsonSend);  
     }
 
-    function Deny(pendingID) {
-      var denyEvent = {"userID": userID, "pendingEventID": pendingID}
+    function Deny(pendingEvent) {
+      var denyEvent = {"pendingEvent": pendingEvent}
             var jsonSend = JSON.stringify(denyEvent);
             console.log('JSON SENDING:' + jsonSend);
 
@@ -178,7 +160,6 @@
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                   console.log(this.response);
-                  console.log(this.responseText);
                   var created = document.getElementById("createsuccess");
                 created.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">Event denied! Refresh page to see new changes.' +
                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';

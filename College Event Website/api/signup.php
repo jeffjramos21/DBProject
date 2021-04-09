@@ -39,7 +39,7 @@
 	  // check if records are inserted
       if($result != TRUE)
 		{
-			returnWithInfo("Email address is already taken!");
+			returnWithInfo("ID is already taken!");
 		}
       
       else 

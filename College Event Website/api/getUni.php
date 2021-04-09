@@ -9,14 +9,14 @@
      $searchCount = 0;
      $searchResults = "";
 
-   $conn = new mysqli('localhost', 'root', '', 'website');
+    $conn = new mysqli('localhost', 'root', '', 'website');
     if($conn->connect_error)
     {
         returnWithError("Connection Failed");
     }
     else
     {   
-        $sql = "SELECT Uni_ID,Name FROM universities";
+        $sql = "SELECT Uni_Name FROM universities";
         $result = $conn->query($sql);
         //$searchCount = $results->num_rows;
          $searchCount = $conn->query($sql)->num_rows;
@@ -26,7 +26,7 @@
             while($searchCount > 0)
             {
                 $row = $result->fetch_assoc();
-                $thisUni = '{"Uni_ID":' . $row["Uni_ID"] . ', "Name":"' . $row["Name"] . '"}';
+                $thisUni = '{"Uni_Name":"' . $row["Uni_Name"] . '"}';
                 $searchResults .= $thisUni;
 
                 if($searchCount > 1)

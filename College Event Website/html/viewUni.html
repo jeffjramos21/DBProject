@@ -90,7 +90,7 @@
         const clickedID = localStorage.getItem('clickedUniID');
         
         function getData() {
-            var uniData = {"uniID": clickedID }
+            var uniData = {"Uni_Name": clickedID }
             var jsonSend = JSON.stringify(uniData);
             console.log('JSON SENDING:' + jsonSend);
 
@@ -102,10 +102,10 @@
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         var jcontent = JSON.parse(this.response);
-			                console.log(jcontent);
+			                console.log(this.response);
 
                         var university = document.getElementById("viewUni");
-                        university.innerHTML = '<h1>' + jcontent['results']['Name'] + '</h1><div class="col-sm-8"><p><b>Address: </b>' + jcontent['results']['Address'] +
+                        university.innerHTML = '<h1>' + jcontent['results']['Uni_Name'] + '</h1><div class="col-sm-8"><p><b>Address: </b>' + jcontent['results']['Address'] +
                         '</p><br/><p><b>City: </b>' + jcontent['results']['City'] + '</p><br/><p><b>State and Zip: </b>' + jcontent['results']['State'] + ', ' + jcontent['results']['Zip'] + '</p><br/>' +
                         '<p><b>Description: </b>' + jcontent['results']['Desc'] +'</p><br/><p><b>Number of Students: </b>' + jcontent['results']['NumStud'] + '</p></div>';
                     }

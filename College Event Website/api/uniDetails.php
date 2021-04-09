@@ -4,14 +4,13 @@
      header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Requested-With");
 
      $inData = getRequestInfo();
-     $Name = "";
      $address ="";
      $city ="";
      $state = "";
      $zip ="";
      $desc ="";
      $numStud ="";
-     $Uni_ID = $inData["uniID"];
+     $Uni_Name = $inData["Uni_Name"];
      $User_ID = 0;
      $searchCount = 0;
      $searchResults = "";
@@ -23,7 +22,7 @@
     }
     else
     {   
-        $sql = "SELECT * FROM universities where Uni_ID = '" . $Uni_ID ."'";
+        $sql = "SELECT * FROM universities where Uni_Name = '" . $Uni_Name ."'";
         $result = $conn->query($sql);
         //$searchCount = $results->num_rows;
          $searchCount = $conn->query($sql)->num_rows;
@@ -33,8 +32,7 @@
             while($searchCount > 0)
             {
                 $row = $result->fetch_assoc();
-                $thisUni = '{"Uni_ID":' . $row["Uni_ID"] . ', 
-                             "Name":"' . $row["Name"] . '", 
+                $thisUni = '{"Uni_Name":"' . $row["Uni_Name"] . '", 
                              "Address":"' . $row["Address"] . '", 
                              "City":"' . $row["City"] . '",
                              "State":"' . $row["State"] . '",

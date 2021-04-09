@@ -179,13 +179,14 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
+            console.log(this.response);
             var jcontent = JSON.parse(this.response);
-			console.log(jcontent);
+			      console.log(jcontent);
 			    for (var i = 0; i < jcontent['results'].length; i++) {
 			  var uni = document.createElement('option');
 			  uni.id = "university";
 			  document.getElementById('university').appendChild(uni)
-			  uni.innerHTML = '<option value="\'' + jcontent['results'][i]['Uni_ID'] + '\'">' + jcontent['results'][i]['Name'] + '</option>';
+			  uni.innerHTML = '<option value="\'' + jcontent['results'][i]['Uni_Name'] + '\'">' + jcontent['results'][i]['Uni_Name'] + '</option>';
 			}
             
           }
