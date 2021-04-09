@@ -40,7 +40,7 @@
     <a href="pendingrso.html">Check Pending RSO Requests</a>
     <a href="universityList.html">View University Profiles</a>
     <a href="checkevents.html">Check Current Events</a>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -129,13 +129,11 @@
 
   <!-- DATA JAVASCRIPT-->
   <script>
-    jcontent4 = {
-      "firstName": "Super",
-      "lastName": "Admin"
-    }
-
-    var student = document.getElementById("superUser");
-    student.innerText = "Welcome " + jcontent4.firstName + " " + jcontent4.lastName;
+    const firstName = localStorage.getItem('firstName');
+	  const lastName = localStorage.getItem('lastName');
+    
+    var superadmin = document.getElementById("superUser");
+    superadmin.innerText = "Welcome " + firstName + " " + lastName;
   </script>
   <!-- End DATA JAVASCRIPT-->
 

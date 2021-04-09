@@ -39,7 +39,7 @@
     <div id="sidebar-active"><a href="checkeventsStudent.html">Check Current Events</a></div>
     <a href="searchrso.html">Search RSOs</a>
     <a href="requestrso.html">Request New RSO</a>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -132,7 +132,7 @@
 
     function viewEvent(eventID){
       console.log(eventID);
-      localStorage.clear();
+      localStorage.removeItem('clickedEventID');
 
       for (var i = 0; i < jcontent2.ID.length; i++) {
           if (jcontent2.ID[i] == eventID) {

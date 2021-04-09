@@ -51,7 +51,7 @@
     <a href="pendingrso.html">Check Pending RSO Requests</a>
     <a href="universityList.html">View University Profiles</a>
     <a href="checkevents.html">Check Current Events</a>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -153,22 +153,29 @@
           var error = document.getElementById("errormsg");
           error.innerText = "All fields must be filled in."
       } else {
-        var createUniData = { "userID": userID, "uniName": uniName, "address": address, "state": state, "zip": zip, "description": description, "population": pop}
+        var createUniData = { "uniName": uniName, "address": address, "state": state, "city": city, "zip": zip, "description": description, "population": pop}
           var jsonSend = JSON.stringify(createUniData);
           console.log('JSON SENDING:' + jsonSend);
 
           var xhr = new XMLHttpRequest();
-          xhr.open('POST', 'http://localhost/collegewebsite/api/createuniversity.php', true);
+          xhr.open('POST', 'http://localhost/collegewebsite/api/createUniProfile.php', true);
           xhr.setRequestHeader("Content-Type", "application/json");
 
           xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
               if (xhr.status === 200) {
-                console.log(this.response);
-                console.log(this.responseText);
-                var created = document.getElementById("createsuccess");
-                created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New University Profile has been Created.' +
+                var info = JSON.parse(this.responseText);
+                console.log(info['info']);
+                
+                if(info['info'] === "Created!"){
+                  var created = document.getElementById("createsuccess");
+                  created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New University Profile has been Created.' +
                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                } else {
+                  var error = document.getElementById("errormsg");
+                      error.innerHTML = info['info'];
+                }
+               
               }
             }
           };

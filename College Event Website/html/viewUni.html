@@ -55,7 +55,7 @@
           <a href="pendingrso.html">Check Pending RSO Requests</a>
           <div id="sidebar-active"><a href="universityList.html">View University Profiles</a></div>
           <a href="checkevents.html">Check Current Events</a>
-          <a href="../index.html">Log Out</a>
+          <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
     </div>
     <!-- End Side Bar-->
 
@@ -87,39 +87,27 @@
     <script src="../javascript/main.js"></script>
 
     <script>
-        var userID = 1;
-        var jcontent7 = {
-            "uniID": [0, 1, 2],
-            "Uni": ["University of Central Florida", "University of Florida", "Florida State University"],
-            "Address": ["4000 Central Florida Blvd","737 Reitz Union Drive","600 W College Ave"],
-            "City": ["Orlando", "Gainesville","Tallahassee"],
-            "State": ["FL", "FL","FL"],
-            "Zip": ["32816","32611","32306"],
-            "Description": ["Research university set on 1,1415 acres with a lake and woodlands.", "Sprawling school offering 150+ research centers and institutes.",
-                "Founded in 1851, this research school features varied aresas of study and a rewnowed sports program."],
-            "Population": ["72000","53000","33000"]
-        }
-
         const clickedID = localStorage.getItem('clickedUniID');
-        var university = document.getElementById("viewUni");
-        university.innerHTML = '<h1>' + jcontent7.Uni[clickedID] + '</h1><div class="col-sm-8"><p><b>Address: </b>' + jcontent7.Address[clickedID] +
-            '</p><br/><p><b>City: </b>' + jcontent7.City[clickedID] + '</p><br/><p><b>State and Zip: </b>' + jcontent7.State[clickedID] + ', ' + jcontent7.Zip[clickedID] + '</p><br/>' +
-            '<p><b>Description: </b>' + jcontent7.Description[clickedID] +'</p><br/><p><b>Number of Students: </b>' + jcontent7.Population[clickedID] + '</p></div>';
-
+        
         function getData() {
-            var uniData = { "userID": userID, "uniID": clickedID }
+            var uniData = {"Uni_Name": clickedID }
             var jsonSend = JSON.stringify(uniData);
             console.log('JSON SENDING:' + jsonSend);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/unidetails.php', true);
+            xhr.open('POST', 'http://localhost/collegewebsite/api/uniDetails.php', true);
             xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        console.log(this.response);
-                        console.log(this.responseText);
+                        var jcontent = JSON.parse(this.response);
+			                console.log(this.response);
+
+                        var university = document.getElementById("viewUni");
+                        university.innerHTML = '<h1>' + jcontent['results']['Uni_Name'] + '</h1><div class="col-sm-8"><p><b>Address: </b>' + jcontent['results']['Address'] +
+                        '</p><br/><p><b>City: </b>' + jcontent['results']['City'] + '</p><br/><p><b>State and Zip: </b>' + jcontent['results']['State'] + ', ' + jcontent['results']['Zip'] + '</p><br/>' +
+                        '<p><b>Description: </b>' + jcontent['results']['Desc'] +'</p><br/><p><b>Number of Students: </b>' + jcontent['results']['NumStud'] + '</p></div>';
                     }
                 }
             };

@@ -42,7 +42,7 @@
     <div id="sidebar-active"><a href="pendingrso.html">Check Pending RSO Requests</a></div>
     <a href="universityList.html">View University Profiles</a>
     <a href="checkevents.html">Check Current Events</a>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -58,6 +58,7 @@
       <div class="row">
 
         <div id="accordion">
+          <div id="errormsg"></div>
           <!-- Pending RSO Requests will be shown here -->
         </div>
       </div>
@@ -92,54 +93,38 @@
 
   <!-- DATA JAVASCRIPT-->
   <script>
-    var userID = 1;
-    jcontent4 = {
-      "PendingRSOid": [0,1],
-      "University": ["University of Central Florida", "University of Central Florida"],
-      "RSOName": ["American Concrete Institute", "Car Club"],
-      "Admin": ["adminamerican@knights.ucf.edu","admincar@knights.ucf.edu"],
-      "email2": ["email2american@knights.ucf.edu","email2car@knights.ucf.edu"],
-      "email3": ["email3american@knights.ucf.edu","email3car@knights.ucf.edu"],
-      "email4": ["email4american@knights.ucf.edu","email4car@knights.ucf.edu"],
-      "email5": ["email5american@knights.ucf.edu","email5car@knights.ucf.edu"],
-      "Description": ["The ACI student chapter at UCF (ACI-UCF) is a pre-professional organization to promote concrete-based technologies in materials, design, construction and management.",
-      "Car Club at UCF strives to provide an opportunity for automotive enthusiasts of all types to come together and discuss their passion for cars!"]
-    }
-
-    for (var i = 0; i < jcontent4.RSOName.length; i++) {
-      var pending = document.createElement('div');
-      pending.id = "accordion";
-      document.getElementById('accordion').appendChild(pending)
-      pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
-        jcontent4.RSOName[i] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>University Name: </b>' + jcontent4.University[i] +
-        '<br /><b>Admin Email: </b>' + jcontent4.Admin[i] + '<br /><b>Contact Email #2: </b>' + jcontent4.email2[i] + '<br /><b>Contact Email #3: </b>' 
-        + jcontent4.email3[i] + '<br /><b>Contact Email #4: </b>' + jcontent4.email4[i] + '<br /><b>Contact Email #5: </b>' + jcontent4.email5[i] + '<br /><b>RSO Description: </b>' + jcontent4.Description[i] +
-        '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + jcontent4.PendingRSOid[i] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + jcontent4.PendingRSOid[i] + '\')">Deny</button></div></div></div></div>'
-    }
-
     function getPendingRSO() {
-      var pendingRSO = {"userID": userID}
-            var jsonSend = JSON.stringify(pendingRSO);
-            console.log('JSON SENDING:' + jsonSend);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/getPendingRSO.php', true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                  console.log(this.response);
-                  console.log(this.responseText);
+     var xhr = new XMLHttpRequest();
+     xhr.open('POST', 'http://localhost/collegewebsite/api/getPendingRSO.php', true);
+     xhr.setRequestHeader("Content-Type", "application/json");
+       xhr.onreadystatechange = function () {
+         if (xhr.readyState === 4) {
+           if (xhr.status === 200) {
+             var info = JSON.parse(this.response);
+             if(info['error'] == null){
+                for (var i = 0; i < info['info'].length; i++) {
+                  var pending = document.createElement('div');
+                  pending.id = "accordion";
+                  document.getElementById('accordion').appendChild(pending)
+                  pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
+                    info['info'][i]['rso_name'] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>University Name: </b>' + info['info'][i]['Uni_Name'] +
+                    '<br /><b>Admin Email: </b>' + info['info'][i]['rso_admin_email'] + '<br /><b>Contact Email #2: </b>' + info['info'][i]['email2'] + '<br /><b>Contact Email #3: </b>' 
+                    + info['info'][i]['email3'] + '<br /><b>Contact Email #4: </b>' + info['info'][i]['email4'] + '<br /><b>Contact Email #5: </b>' + info['info'][i]['email5'] + '<br /><b>RSO Description: </b>' + info['info'][i]['rso_desc'] +
+                    '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + info['info'][i]['rso_name'] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + info['info'][i]['rso_name'] + '\')">Deny</button></div></div></div></div>'
                 }
-              }
-            };
 
-            xhr.send(jsonSend);  
+             } else {
+              var error = document.getElementById("errormsg");
+                error.innerHTML = info['error'];
+             }
+            }
+         }
+       };
+            xhr.send();  
     }
 
-    function Approve(pendingID) {
-      var approveRSO = {"userID": userID, "pendingRSOid": pendingID}
+    function Approve(pendingRSO) {
+      var approveRSO = {"pendingRSO": pendingRSO}
             var jsonSend = JSON.stringify(approveRSO);
             console.log('JSON SENDING:' + jsonSend);
 
@@ -150,7 +135,6 @@
             xhr.onreadystatechange = function () {
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                  console.log(this.response);
                   console.log(this.responseText);
                   var created = document.getElementById("createsuccess");
                 created.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">RSO approved! Refresh page to see new changes.' +
@@ -162,8 +146,8 @@
             xhr.send(jsonSend);  
     }
 
-    function Deny(pendingID) {
-      var denyRSO = {"userID": userID, "pendingRSOid": pendingID}
+    function Deny(pendingRSO) {
+      var denyRSO = { "pendingRSO": pendingRSO}
             var jsonSend = JSON.stringify(denyRSO);
             console.log('JSON SENDING:' + jsonSend);
 
@@ -174,7 +158,6 @@
             xhr.onreadystatechange = function () {
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                  console.log(this.response);
                   console.log(this.responseText);
                   var created = document.getElementById("createsuccess");
                 created.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">RSO denied! Refresh page to see new changes.' +

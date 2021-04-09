@@ -50,7 +50,7 @@
     <a href="checkeventsStudent.html">Check Current Events</a>
     <a href="searchrso.html">Search RSOs</a>
     <div id="sidebar-active"><a href="requestrso.html">Request New RSO</a></div>
-    <a href="../index.html">Log Out</a>
+    <a href="../index.html" onclick="localStorage.clear()">Log Out</a>
   </div>
   <!-- End Side Bar-->
 
@@ -69,46 +69,40 @@
             <div class="col-lg-5 col-md-8">
 
               <div class="form-group">
-                <label for="uniname">University's Name</label>
-                <input type="text" id="uniname" name="uniname" , placeholder="University of Central Florida">
-              </div>
-
-              <div class="form-group">
                 <label for="rsoname">RSO's Name</label>
                 <input type="text" id="rsoname" name="rsoname" , placeholder="Knights Communication">
               </div>
 
               <div class="form-group">
                 <label for="description">RSO's Description</label>
-                <textarea id="description" name="description" rows="9" cols="70" ,
+                <textarea id="description" name="description" rows="6" cols="70" ,
                   placeholder="The mission of Knights Communication is to further the individual welfare of its members by promoting education and advancement."></textarea>
               </div>
 
-            </div>
-
-            <div class="col-lg-5 col-md-8">
               <div class="form-group">
                 <label for="email1"></i>RSO Admin's Email</label>
                 <input type="email" id="email1" name="email1" , placeholder="member1@knights.ucf.edu">
               </div>
+              </div>
 
+              <div class="col-lg-5 col-md-8">
               <div class="form-group">
-                <label for="email2"></i>Email #2</label>
+                <label for="email2"></i>Member 2 Email</label>
                 <input type="email" id="email2" name="email2" , placeholder="member2@knights.ucf.edu">
               </div>
 
               <div class="form-group">
-                <label for="email1"></i>Email #3</label>
+                <label for="email1"></i>Member 3 Email</label>
                 <input type="email" id="email3" name="email3" , placeholder="member3@knights.ucf.edu">
               </div>
 
               <div class="form-group">
-                <label for="email1"></i>Email #4</label>
+                <label for="email1"></i>Member 4 Email</label>
                 <input type="email" id="email4" name="email4" , placeholder="member4@knights.ucf.edu">
               </div>
 
               <div class="form-group">
-                <label for="email1"></i>Email #5</label>
+                <label for="email1"></i>Member 5 Email</label>
                 <input type="email" id="email5" name="email5" , placeholder="member5@knights.ucf.edu">
               </div>
             </div>
@@ -165,7 +159,7 @@
           console.log('JSON SENDING:' + jsonSend);
 
           var xhr = new XMLHttpRequest();
-          xhr.open('POST', 'http://localhost/collegewebsite/api/requestrso.php', true);
+          xhr.open('POST', 'http://localhost/collegewebsite/api/createRSO.php', true);
           xhr.setRequestHeader("Content-Type", "application/json");
 
           xhr.onreadystatechange = function () {
