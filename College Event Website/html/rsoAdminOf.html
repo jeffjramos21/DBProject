@@ -99,7 +99,8 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-           var info = JSON.parse(this.response);
+            console.log(this.response);
+          var info = JSON.parse(this.response);
             console.log(info);
             if(info['error'] == null){
               var table = document.getElementById("AdminRSOtable");
