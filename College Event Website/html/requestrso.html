@@ -60,6 +60,7 @@
     <div class="container">
       <div class="section-title text-center">
         <div id="requestsuccess"></div>
+        <div id="errormsg"></div>
         <h2>Request New RSO</h2>
       </div>
 
@@ -132,12 +133,11 @@
   <script src="../javascript/main.js"></script>
 
   <script>
-    var userID = 1;
+    const userID = localStorage.getItem('userID');
 
     function RequestRSO() {
       var error = document.getElementById("errormsg");
       error.innerText = "";
-      var university = document.getElementById("uniname").value;
       var rsoName = document.getElementById("rsoname").value;
       var description = document.getElementById("description").value;
       var adminEmail = document.getElementById("email1").value;
@@ -146,7 +146,7 @@
       var memEmail4 = document.getElementById("email4").value;
       var memEmail5 = document.getElementById("email5").value;
 
-      if (university === "" || rsoName === "" || description === "" || adminEmail === "" || memEmail2 === "" || memEmail3 === "" || memEmail4 === "" || memEmail5 === "") {
+      if (rsoName === "" || description === "" || adminEmail === "" || memEmail2 === "" || memEmail3 === "" || memEmail4 === "" || memEmail5 === "") {
         var error = document.getElementById("errormsg");
         error.innerText = "All fields must be filled in.";
       } else {
@@ -154,22 +154,27 @@
         if (memEmail2.substr((memEmail2.indexOf("@") + 1)) === domain && memEmail3.substr((memEmail3.indexOf("@") + 1)) === domain && memEmail4.substr((memEmail4.indexOf("@") + 1)) === domain &&
           memEmail5.substr((memEmail5.indexOf("@") + 1)) === domain) {
 
-          var requestRSO = { "userID": userID, "rsoName": rsoName, "university": university, "description": description, "admin": adminEmail, "mem1": memEmail2, "mem2": memEmail3, "mem3": memEmail4, "mem4": memEmail5 }
+          var requestRSO = { "userID": userID, "rsoName": rsoName, "description": description, "admin": adminEmail, "mem1": memEmail2, "mem2": memEmail3, "mem3": memEmail4, "mem4": memEmail5 }
           var jsonSend = JSON.stringify(requestRSO);
           console.log('JSON SENDING:' + jsonSend);
 
           var xhr = new XMLHttpRequest();
-          xhr.open('POST', 'http://localhost/collegewebsite/api/createRSO.php', true);
+          xhr.open('POST', 'http://localhost/collegewebsite/api/requestRSO.php', true);
           xhr.setRequestHeader("Content-Type", "application/json");
 
           xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
               if (xhr.status === 200) {
-                console.log(this.response);
-                console.log(this.responseText);
-                var requested = document.getElementById("requestsuccess");
-                requested.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New RSO request has been received.' +
+                var info = JSON.parse(this.response);
+                console.log(info);
+                if(info['error'] == null){
+                  var requested = document.getElementById("requestsuccess");
+                   requested.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">New RSO request has been received.' +
                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                } else {
+                  var error = document.getElementById("error");
+                     error.innerHTML = jcontent['error'];
+                }
               }
             }
           };

@@ -63,6 +63,7 @@
         <div class="container">
             <div id="joinsuccess"></div>
             <div id="viewRSO">
+                <div id="errormsg"></div>
 
 
             </div>
@@ -86,45 +87,32 @@
     <script src="../javascript/main.js"></script>
 
     <script>
-        var userID = 1;
-        var jcontent7 = {
-            "ID": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-            "RSO": ["3D Printing and Design", "Biology Graduate Student Association", "Girl Up Orlando", "Holmes Scholars Program",
-                "Latino Medical Student Association", "Modeling and Simulation Knights", "ONE at UCF", "Photonics Society",
-                "Scientista", "Team Sport Business Management"],
-            "Description": ["The mission of 3D-PaD is to make 3D printing and 3D design available to all students at UCF. We teach all skill levels the essentials of 3D modeling and printing and offer 3D printers for both academic and personal use.",
-                "To provide opportunities for UCF biology students to participate in extracurricular activities in Biology.", "Girl Up Orlando is an organization that strives to empower students by channeling their energy and compassion to raise awareness for the United Nations initiatives that help hard to reach adolescent girls.",
-                "The Holmes Scholars is organized for four primary purposes:To work toward the diversification of faculty and students in Schools and Colleges of Education and of K-12 teachers and administrators and to represent the interest and voices of the Holmes Scholars campus-wide.",
-                "The Latino Medical Student Association at UCF unites and empowers pre-health students through service, mentorship and education to advocate for the health of the Latino community.",
-                "MaSK (Modeling and Simulation Knights) is graduate student organization at UCF for students in the School of Modeling, Simulation, & Training and other related STEM fields to collaborate, network, and socialize within the organization and with other members of the simulation community.",
-                "ONE at UCF Chapter advocates to end extreme poverty and preventable disease worldwide while bringing awareness and advocacy for aids and malaria in Sub-Saharan Africa.",
-                "", "The mission of this organization is to empower women majoring in Science, Technology, Engineering, Mathematics, and Medicine (STEMM) by providing a strong campus community, online resources, and visible role models.",
-                "Student Organization of the DeVos Sport Business Management Program."],
-            "Admin": ["3dprinting@knights.ucf.edu", "biology@knights.ucf.edu", "girlup@knights.ucf.edu", "holmes@knights.ucf.edu", "latinomed@knights.ucf.edu", "modeling@knights.ucf.edu", "one@knights.ucf.edu",
-                "photonics@knights.ucf.edu", "scientista@knights.ucf.edu", "sports@knights.ucf.edu"]
-        }
-
         const clickedID = localStorage.getItem('clickedID');
-        var RSO = document.getElementById("viewRSO");
-        RSO.innerHTML = '<h1>' + jcontent7.RSO[clickedID] + '</h1><a href="#" class="btn" onclick="JoinRSO()">Join</a><div class="col-sm-8"><p><b>Description: </b>' + jcontent7.Description[clickedID] +
-            '</p><br/><p><b>Admin Contact Email: </b>' + jcontent7.Admin[clickedID] + '</p></div>';
-
-
+        const userID = localStorage.getItem('userID');
 
         function getData() {
-            var rsoData = { "userID": userID, "rsoID": clickedID }
+            var rsoData = { "rsoName": clickedID }
             var jsonSend = JSON.stringify(rsoData);
             console.log('JSON SENDING:' + jsonSend);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/rsodetails.php', true);
+            xhr.open('POST', 'http://localhost/collegewebsite/api/RSOdetails.php', true);
             xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        console.log(this.response);
-                        console.log(this.responseText);
+                        var info = JSON.parse(this.response);
+                        console.log(info);
+                        if(info['error'] == null){
+                            var RSO = document.getElementById("viewRSO");
+                            RSO.innerHTML = '<h1>' + info['rsoName'] + '</h1><a href="#" class="btn" onclick="JoinRSO()">Join</a><div class="col-sm-8"><p><b>University: </b>' + info['university'] +
+                            '</p><br/><p><b>Description: </b>' + info['description'] +'</p><br/><p><b>Admin Contact Email: </b>' + info['adminEmail'] + '</p></div>';
+                        } else{
+                            var error = document.getElementById("error");
+                                error.innerHTML = jcontent['error'];
+                        }
+
                     }
                 }
             };
@@ -133,19 +121,18 @@
         }
 
         function JoinRSO() {
-            var joinRSO = { "userID": userID, "rsoID": clickedID }
+            var joinRSO = { "userID": userID, "rsoName": clickedID }
             var jsonSend = JSON.stringify(joinRSO);
             console.log('JSON SENDING:' + jsonSend);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost/collegewebsite/api/joinrso.php', true);
+            xhr.open('POST', 'http://localhost/collegewebsite/api/joinedRSO.php', true);
             xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         console.log(this.response);
-                        console.log(this.responseText);
                         var joined = document.getElementById("joinsuccess");
                         joined.innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert">Joined RSO.' +
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';

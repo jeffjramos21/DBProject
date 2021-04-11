@@ -1185,6 +1185,11 @@ span {
   border-color: white;
 }
 
+#rso #errormsg{
+  color: red;
+  text-align: center;
+}
+
 /*--------------------------------------------------------------
 # Request new RSO Section
 --------------------------------------------------------------*/

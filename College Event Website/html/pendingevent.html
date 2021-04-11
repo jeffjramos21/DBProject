@@ -100,7 +100,7 @@
       xhr.onreadystatechange = function () {
          if (xhr.readyState === 4) {
            if (xhr.status === 200) {
-             var info = JSON.parse(this.response);
+            var info = JSON.parse(this.response);
              if(info['error'] == null){
               for (var i = 0; i < info['info'].length; i++) {
                 var pending = document.createElement('div');
@@ -108,7 +108,7 @@
                 document.getElementById('accordion').appendChild(pending)
                 pending.innerHTML = '<div class="card"><div class="card-header"><h5 class="mb-0">' +
                   info['info'][i]['Event Name'] + '</h5></div><div data-parent="#accordion"><div class="card-body"><b>Date: </b>' + info['info'][i]['date'] +
-                  '<br /><b>Time: </b>' + info['info'][i]['time'] + '<br /><b>Location: </b>' + info['info'][i]['address'] + '<br /><b>Event Type: </b>' + info['info'][i]['Event Type'] + '<br /><b>Event Category: </b>' + info['info'][i]['Event Category'] +
+                  '<br /><b>Start Time: </b>' + info['info'][i]['startTime'] + '<br /><b>End Time: </b>' + info['info'][i]['endTime'] +  '<br/><b>Location: </b>' + info['info'][i]['address'] + '<br /><b>Event Type: </b>' + info['info'][i]['Event Type'] + '<br /><b>Event Category: </b>' + info['info'][i]['Event Category'] +
                   '<br /><b>Contact Phone Number: </b>' + info['info'][i]['phone'] + '<br /><b>Contact E-mail: </b>' + info['info'][i]['email'] + '<br /><b>Description: </b>' + info['info'][i]['desc'] +
                   '<div class="decisionbuttons"><button class="btnapprove" onclick="Approve(\'' + info['info'][i]['Event Name'] + '\')">Approve</button><button class="btndeny", onclick="Deny(\'' + info['info'][i]['Event Name'] + '\')">Deny</button></div></div></div></div>'
               }

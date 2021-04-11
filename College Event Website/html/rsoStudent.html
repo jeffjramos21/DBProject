@@ -59,17 +59,10 @@
     <div class="container">
       <div id="leftRSO"></div>
       <h1>My RSO</h1>
+      <div id="errormsg"></div>
 
       <table class="table" id="StudentRSOtable">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Registered Student Organizations</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Create rows and fill with data here-->
-        </tbody>
+
       </table>
     </div>
   </section>
@@ -92,13 +85,7 @@
 
   <!-- DATA JAVASCRIPT-->
   <script>
-    var jcontent = {
-      "rsoID": [1, 2, 3, 4, 5],
-      "RSO": ["Advocates for World Health", "American Sign Language Club", "Anime Spot",
-        "Art Club", "Financial Knights Association"]
-    }
-
-    var userID = 1;
+    const userID = localStorage.getItem('userID');
 
     function GetMyRSO() {
       var myRSOdata = { "userID": userID };
@@ -106,14 +93,28 @@
       console.log('JSON SENDING:' + jsonSend);
 
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost/collegewebsite/api/myrso.php', true);
+      xhr.open('POST', 'http://localhost/collegewebsite/api/myRSO.php', true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log(this.response);
-            console.log(this.responseText);
+            var info = JSON.parse(this.response);
+            if(info['error'] == null){
+              var table = document.getElementById("StudentRSOtable");
+              table.innerHTML = '<thead class="thead-dark"><tr><th scope="col">#</th><th scope="col">Registered Student Organizations</th></tr></thead><tbody></tbody>';
+                for (var i = 0; i < info['results'].length; i++) {
+                  var table = document.getElementById("StudentRSOtable");
+                  var row = table.insertRow(i + 1);
+                  var cell1 = row.insertCell(0);
+                  var cell2 = row.insertCell(1);
+                  cell1.innerHTML = i + 1;
+                  cell2.innerHTML = info['results'][i]['rsoName'] + '<a href="#" class="btn" onclick="LeaveRSO(\'' + info['results'][i]['rsoName'] + '\')">Leave</a>';
+                }
+            } else {
+              var error = document.getElementById("errormsg");
+                error.innerHTML = info['error'];
+            }
           }
         }
       };
@@ -122,20 +123,18 @@
     }
 
     function LeaveRSO(rsoID) {
-      var leaveRSOdata = { "userID": userID, "rsoID": rsoID };
+      var leaveRSOdata = { "userID": userID, "rsoName": rsoID };
       var jsonSend = JSON.stringify(leaveRSOdata);
       console.log('JSON SENDING:' + jsonSend);
 
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost/collegewebsite/api/leaverso.php', true);
+      xhr.open('POST', 'http://localhost/collegewebsite/api/leaveRSO.php', true);
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
             console.log(this.response);
-            console.log(this.responseText);
-
             var left = document.getElementById("leftRSO");
             left.innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert">You have left the RSO. Refresh page to see new changes.' +
             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
@@ -144,16 +143,6 @@
       };
 
       xhr.send(jsonSend);
-    }
-
-
-    for (var i = 0; i < jcontent.RSO.length; i++) {
-      var table = document.getElementById("StudentRSOtable");
-      var row = table.insertRow(i + 1);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      cell1.innerHTML = i + 1;
-      cell2.innerHTML = jcontent.RSO[i] + '<a href="#" class="btn" onclick="LeaveRSO(\'' + jcontent.rsoID[i] + '\')">Leave</a>';
     }
   </script>
   <!-- End DATA JAVASCRIPT -->
