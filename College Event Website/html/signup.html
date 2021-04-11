@@ -183,11 +183,11 @@
             var jcontent = JSON.parse(this.response);
 			      console.log(jcontent);
 			    for (var i = 0; i < jcontent['results'].length; i++) {
-			  var uni = document.createElement('option');
-			  uni.id = "university";
-			  document.getElementById('university').appendChild(uni)
-			  uni.innerHTML = '<option value="\'' + jcontent['results'][i]['Uni_Name'] + '\'">' + jcontent['results'][i]['Uni_Name'] + '</option>';
-			}
+            var uni = document.createElement('option');
+            uni.id = "university";
+            document.getElementById('university').appendChild(uni)
+            uni.innerHTML = '<option value="\'' + jcontent['results'][i]['Uni_Name'] + '\'">' + jcontent['results'][i]['Uni_Name'] + '</option>';
+          }
             
           }
         }

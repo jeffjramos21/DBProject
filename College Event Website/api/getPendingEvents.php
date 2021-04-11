@@ -28,7 +28,8 @@
                                "Event Type":"' . $row["Event_Type"] . '",
                                "Event Category":"' . $row["Event_Category"] . '",
                                "date":"' . $row["Event_Date"] . '",
-                               "time":"' . $row["Event_Time"] . '",
+                               "startTime":"' . $row["Event_Start_Time"] . '",
+							   "endTime":"' . $row["Event_End_Time"] . '",
                                "email":"' . $row["Contact_Email"] . '",
                                "phone":"' . $row["Contact_Phone"] . '",
                                "desc":"' . $row["Description"] . '",
@@ -48,7 +49,7 @@
         }
         else
         {
-            returnWithError("No Pending Events");
+            returnWithError("No Pending Events.");
         }
     }
 

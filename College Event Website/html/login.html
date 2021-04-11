@@ -128,12 +128,17 @@
 
   <script>
     function LogIn(){
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      today = yyyy + '-' + mm + '-' + dd;
       var email = document.getElementById("email");
       var password = document.getElementById("password");
 
       if(email.value !== "" && password.value !== ""){
         var hashedpassword = md5(password.value);
-        var loginData = {"email": email.value, "password": hashedpassword}
+        var loginData = {"email": email.value, "password": hashedpassword, "today": today}
         var jsonSend = JSON.stringify(loginData);
         console.log('JSON SENDING:' + jsonSend);
 
