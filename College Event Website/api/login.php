@@ -5,13 +5,11 @@
 
     // Login as a user
     $inData = getRequestInfo();
-    $User_ID = 0;
     $email = $inData["email"];
     $password = $inData["password"];
-    
-    //$password = password_hash($password, PASSWORD_DEFAULT);
-    // Connecting to database
-   $conn = new mysqli('localhost', 'root', '', 'website');
+    $date = $inData["today"];
+
+    $conn = new mysqli('localhost', 'root', '', 'website');
     if($conn->connect_error)
     {
         returnWithError("Connection Failed");
@@ -21,6 +19,7 @@
     {
         $sql = "SELECT User_ID ,password,first,last FROM users where email = '" . $email . "'" ;
         $result = $conn->query($sql);
+    
 
         if($result->num_rows > 0)
         {
@@ -29,10 +28,14 @@
             $hash = $row["password"];
             $first = $row["first"];
             $last = $row["last"];
-            
             if(password_verify($password, $hash))
             {   
-                
+                $sql2 ="UPDATE users SET datelaston = '".$date."' WHERE User_ID = '" . $User_ID . "'";
+                $result2 = $conn->query($sql2);
+                if($result2 != TRUE)
+                {
+                    returnWithError("time not updated");
+                }
                 $superCheck = "SELECT User_ID FROM superAdmins  WHERE User_ID = '" . $User_ID . "'";
                 $superNum = $conn->query($superCheck)->num_rows;
                 
@@ -58,7 +61,7 @@
                         //echo($role);
                         returnWithInfo($User_ID, $first, $last, $role);
                     }
-                }
+                 } 
             }
             else
             { 

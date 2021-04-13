@@ -98,14 +98,10 @@
     <script>
       const userID = localStorage.getItem('userID');
 
-        for (var i = 0; i < jcontent1.RSO.length; i++) {
-            var table = document.getElementById("myTable");
-            var row = table.insertRow(i + 1);
-            var cell1 = row.insertCell(0);
-            cell1.innerHTML = '<a href="#" onclick="selectRSO(\'' + jcontent1.ID[i] + '\')">' + jcontent1.RSO[i] + '</a><a href="#" class="btn" onclick="JoinRSO(\'' + jcontent1.ID[i] + '\')">Join</a>';
-        }
-
         function getData() {
+            var searchRSO = { "userID": userID}
+            var jsonSend = JSON.stringify(searchRSO);
+            console.log('JSON SENDING:' + jsonSend);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'http://localhost/collegewebsite/api/searchRSO.php', true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -123,7 +119,7 @@
                             cell1.innerHTML = '<a href="#" onclick="selectRSO(\'' + info['results'][i]['RSO'] + '\')">' + info['results'][i]['RSO'] + '</a><a href="#" class="btn" onclick="JoinRSO(\'' + info['results'][i]['RSO'] + '\')">Join</a>';
                             }
                         } else {
-                            var error = document.getElementById("error");
+                            var error = document.getElementById("errormsg");
                                 error.innerHTML = info['error'];
                         }
 
@@ -131,7 +127,7 @@
                 }
             };
 
-            xhr.send();
+            xhr.send(jsonSend);
         }
 
         function JoinRSO(rsoID) {

@@ -16,7 +16,7 @@
     else
     {
         //echo($eventName);
-        $sql5 = "SELECT Event_Type,Event_Category,Event_Date,Event_Start_Time,Event_End_Time,Contact_Email,Contact_Phone,Description,Address,Latitude,Longitude FROM pending_events where Event_Name = '" . $eventName . "'";
+        $sql5 = "SELECT Event_Type,Event_Category,Event_Date,Event_Start_Time,Event_End_Time,Contact_Email,Contact_Phone,Description,Address,Latitude,Longitude,Uni_Name FROM pending_events where Event_Name = '" . $eventName . "'";
         $result5 = $conn->query($sql5);
         if($result5->num_rows > 0)
         {
@@ -25,18 +25,20 @@
             $Event_Type = $row["Event_Type"];
             $Cat = $row["Event_Category"];
             $date = $row["Event_Date"];
-            $startTime = $row["Event_Start_Time"];
-			$endTime = $row["Event_End_Time"];
+            $end = $row["Event_End_Time"];
+            $start =$row["Event_Start_Time"];
             $email = $row["Contact_Email"];
             $phone = $row["Contact_Phone"];
             $desc = $row["Description"];
             $address = $row["Address"];
             $lat = $row["Latitude"];
             $lon = $row["Longitude"];
-
+            $uni = $row["Uni_Name"];
+            //echo($uni);
+            
             if($Event_Type == $public)
             {
-                $sql = "INSERT INTO public_events(Event_Name, Event_Type, Event_Category, Event_Date, Event_Start_Time,Event_End_Time, Contact_Email, Contact_Phone, Description, Address) VALUES ('" . $eventName . "', '" . $Event_Type . "', '" . $Cat . "', '" . $date . "', '" . $startTime . "', '" . $endTime . "', '" . $email . "', '" . $phone . "', '" . $desc . "', '" . $address . "')";
+                $sql = "INSERT INTO public_events(Event_Name, Event_Type, Event_Category, Event_Date, Event_Start_Time,Event_End_Time, Contact_Email, Contact_Phone, Description, Address) VALUES ('" . $eventName . "', '" . $Event_Type . "', '" . $Cat . "', '" . $date . "', '" . $start . "','" . $end . "', '" . $email . "', '" . $phone . "', '" . $desc . "', '" . $address . "')";
                 $location = "INSERT INTO location(Location_ID, Latitude,Longitude) VALUES ('" . $eventName . "','" . $lat . "','" . $lon . "')";
                 $result = $conn->query($sql);
                 $result2 = $conn->query($location);
@@ -46,7 +48,7 @@
                     returnWithError("Public event not created");
                 }
                 else
-                {   
+                {
                     $sql2 = "DELETE FROM pending_events where Event_Name = '" . $eventName . "'";
                     $result2 = $conn->query($sql2);
                     if($result2 != TRUE)
@@ -54,14 +56,14 @@
                         returnWithError("Event still pending!");
                     }
                     else
-                    {
+                    {   
                         returnWithError("Public event created");
                     }
                 }
             }
             else if($Event_Type == $private)
             {
-                $sql = "INSERT INTO private_events(Event_Name, Event_Type, Event_Category, Event_Date, Event_Start_Time, Event_End_Time,Contact_Email, Contact_Phone, Description, Address) VALUES ('" . $eventName . "', '" . $Event_Type . "', '" . $Cat . "', '" . $date . "', '" . $startTime . "', '" . $endTime . "', '" . $email . "', '" . $phone . "', '" . $desc . "', '" . $address . "')";
+                $sql = "INSERT INTO private_events(Event_Name, Event_Type, Event_Category, Event_Date, Event_Start_Time,Event_End_Time, Contact_Email, Contact_Phone, Description, Address,Uni_Name) VALUES ('" . $eventName . "', '" . $Event_Type . "', '" . $Cat . "', '" . $date . "', '" . $start . "','" . $end . "', '" . $email . "', '" . $phone . "', '" . $desc . "', '" . $address . "','" . $uni . "')";
                 $location = "INSERT INTO location(Location_ID, Latitude,Longitude) VALUES ('" . $eventName . "','" . $lat . "','" . $lon . "')";
                 $result = $conn->query($sql);
                 $result2 = $conn->query($location);
@@ -80,8 +82,8 @@
                     }
                     else
                     {
-                        returnWithInfo("Private event created");
-                    }
+                        returnWithError("Private event created");
+                    }  
                 } 
             }
         }

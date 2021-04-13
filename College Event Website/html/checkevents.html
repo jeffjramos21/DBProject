@@ -28,7 +28,7 @@
   <link href="../css/style.css" rel="stylesheet">
 </head>
 
-<body onload="javascript:getDataAll(), getDataToday(), filterSelection('all')">
+<body onload="javascript:filterSelection('all')">
   <!-- Side Bar-->
   <div id="mySidenav" class="sidenav">
     <div id="logo">
@@ -48,6 +48,7 @@
   <section id="schedule" class="section-with-bg">
     <div class="container">
       <h1>Current Events</h1>
+      <div id="errormsg"></div>
 
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
@@ -101,242 +102,205 @@
 
 <!-- DATA JAVASCRIPT-->
 <script>
- const userID = localStorage.getItem('userID');
+   const userID = localStorage.getItem('userID');
 
-jcontent2 = {
-  "ID": [0,1,2,3,4],
-  "Type": ["Public", "Public", "Private", "RSO", "RSO"],
-  "EventTime": ["10:00 AM", "12:00PM", "12:00 PM", "3:00 PM", "6:00 PM"],
-  "EventName": ["Paper House - 2021 Annual MFA Exhibition", "EndNote Citation Management", "Application Workshop #2", "Preparing a Research Poster", "In Her Honor"],
-  "EventDescription": ["Paper House explores fragility, transparency, and validation of intimate relationships and experiences through a variety of mediums and processes. The exhibition showcases the thesis work of Master of Fine Arts candidates in the UCF School of Visual Arts and Design: Gabe Cortese, Danielle Culibao Powell, Tim Reid and Annette Tojar.",
-    "Citation management tools allow you to dedicate more time to research. Join us to learn how to export citations from library databases, organize citations, generate bibliographies and format citations in a Word document. EndNote can help make managing your references and formatting citations easy.",
-    "Join us for our second Zoom virtual workshop that will help you prepare your application for the 2021 Joust New Venture Competition presented by Viatek.",
-    "This workshop will help undergraduate students gain skills to prepare a poster presentation of your research or creative work. Note: This workshop is for students already working on a research project.",
-    "On Monday, March 1 from 6 to 7:30 p.m., join your community of peers from womxn based organizations for a night of honoring Womxnhood and Embracing Art. Come with your creative and diverse minds as we will be creating our own works of art in honor of Women's History Month."]
+   function viewEvent(eventID){
+      console.log(eventID);
+      localStorage.removeItem('clickedEventID');
+      localStorage.setItem('clickedEventID', eventID);
+      window.location.href = "viewEventSuper.html";
 }
-
-jcontent3 = {
-  "ID": [5,6,0,1,7,8,9],
-  "Type": ["Public","Public","Public","Public","RSO","Private","RSO"],
-  "EventTime": ["9:00 AM", "9:00 AM", "10:00 AM", "12:00 PM", "3:00 PM", "12:00 PM", "10:00 AM"],
-  "EventDate": ["February 29, 2021", "February 28, 2021", "March 01, 2021", "March 01, 2021", "March 02, 2021", "March 03, 2021", "March 04, 2021"],
-  "EventName": ["Kayaking Day Trip", "Scaramouch in Naxos", "Paper House - 2021 Annual MFA Exhibition", "EndNote Citation Management", "Pride Chats", "Prep with a Pro", "How to Start Your Business"],
-  "EventDescription": ["Join Outdoor Adventure as we paddle through Central Florida’s diverse wetlands. Kayaking offers the opportunity to connect with nature in a very unique way, and as we move through the rivers we will hopefully get to see plenty of wildlife like fish, turtles, and birds dive beneath the surface.",
-    "Full of raucous energy typical of Commedia dell’arte, this colorful play involves a plot by the roguish clown Scaramouch to have Bacchus, the Greek god himself, star in his latest theatrical piece.",
-    "Paper House explores fragility, transparency, and validation of intimate relationships and experiences through a variety of mediums and processes. The exhibition showcases the thesis work of Master of Fine Arts candidates in the UCF School of Visual Arts and Design: Gabe Cortese, Danielle Culibao Powell, Tim Reid and Annette Tojar.",
-    "Citation management tools allow you to dedicate more time to research. Join us to learn how to export citations from library databases, organize citations, generate bibliographies and format citations in a Word document. EndNote can help make managing your references and formatting citations easy.",
-    "Pride Chats are a biweekly discussion that focuses on a multitude of diverse topics. The topics are different at each event and address different aspects of the LGBTQ+ community.",
-    "Join employers presenting on topics, including interviewing strategies, impressing the recruiter, financial check-up and more to help you prepare to launch your career.",
-    "If you’re thinking of starting a business, it’s important to take the right steps. This course will give you an overview of what to know, actions to take, and how to avoid common missteps to give your company its greatest chance of success."]
-}
-
-function viewEvent(eventID){
-  console.log(eventID);
-  localStorage.removeItem('clickedEventID');
-
-  for (var i = 0; i < jcontent2.ID.length; i++) {
-      if (jcontent2.ID[i] == eventID) {
-        localStorage.setItem('clickedEventID', eventID);
-        window.location.href = "viewEventSuper.html";
-      }
-    }
-
-  for (var i = 0; i < jcontent3.ID.length; i++) {
-      if (jcontent3.ID[i] == eventID) {
-        localStorage.setItem('clickedEventID', eventID);
-        window.location.href = "viewEventSuper.html";
-      }
-  }
-}
-
 
 function filterSelection(category){
-//day view all
-if(category === "all"){
-while(document.getElementById('superDay').firstChild){
-    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
-  }
-  document.getElementById("filterAll").setAttribute("class", "btn active");
-  document.getElementById("filterPrivate").setAttribute("class", "btn");
-  document.getElementById("filterPublic").setAttribute("class", "btn");
-  document.getElementById("filterRSO").setAttribute("class", "btn");
-for (var i = 0; i < jcontent2.EventName.length; i++) {
-  var day = document.createElement('div');
-  day.id = "superDay";
-  document.getElementById('superDay').appendChild(day)
-  day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent2.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent2.ID[i] + '\')">' + jcontent2.EventName[i] + '</a><p>' 
-      + jcontent2.EventDescription[i] + '</p></div></div>';
-}
-}
+    var eventData = {"userID": userID}
+            var jsonSend = JSON.stringify(eventData);
+            console.log('JSON SENDING:' + jsonSend);
 
-//all view all
-if(category === "all"){
-while(document.getElementById('superAll').firstChild){
-    document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
-  }
-for (var i = 0; i < jcontent3.EventName.length; i++) {
-  var all = document.createElement('div');
-  all.id = "superAll";
-  document.getElementById('superAll').appendChild(all)
-  all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent3.EventDate[i] + '</time>' + '<time>' + jcontent3.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent3.ID[i] + '\')">' + jcontent3.EventName[i] + '</a><p>' + jcontent3.EventDescription[i] + '</p></div></div>';
-}
-}
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/collegewebsite/api/dailyEvents.php', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
 
-//day private
-if(category === "private"){
-  while(document.getElementById('superDay').firstChild){
-    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
-  }
-  document.getElementById("filterAll").setAttribute("class", "btn");
-  document.getElementById("filterPrivate").setAttribute("class", "btn active");
-  document.getElementById("filterPublic").setAttribute("class", "btn");
-  document.getElementById("filterRSO").setAttribute("class", "btn");
-for (var i = 0; i < jcontent2.EventName.length; i++) {
-  if(jcontent2.Type[i] === "Private"){
-    var day = document.createElement('div');
-  day.id = "superDay";
-  document.getElementById('superDay').appendChild(day)
-    day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent2.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent2.ID[i] + '\')">' + jcontent2.EventName[i] + '</a><p>' 
-      + jcontent2.EventDescription[i] + '</p></div></div>';
-  }
-}
-}
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  var today = JSON.parse(this.response);
+                  console.log(today);
 
-//all private
-if(category === "private"){
-while(document.getElementById('superAll').firstChild){
-    document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
-  }
-for (var i = 0; i < jcontent3.EventName.length; i++) {
-  if(jcontent3.Type[i] === "Private"){
-  var all = document.createElement('div');
-  all.id = "superAll";
-  document.getElementById('superAll').appendChild(all)
-  all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent3.EventDate[i] + '</time>' + '<time>' + jcontent3.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent3.ID[i] + '\')">' + jcontent3.EventName[i] + '</a><p>' + jcontent3.EventDescription[i] + '</p></div></div>';
-}
-}
-}
+                  if(today['error'] == null){
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open('POST', 'http://localhost/collegewebsite/api/getAllEvents.php', true);
+                    xhr2.setRequestHeader("Content-Type", "application/json");
 
-//day public
-if(category === "public"){
-while(document.getElementById('superDay').firstChild){
-    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
-}
-document.getElementById("filterAll").setAttribute("class", "btn");
-  document.getElementById("filterPrivate").setAttribute("class", "btn");
-  document.getElementById("filterPublic").setAttribute("class", "btn active");
-  document.getElementById("filterRSO").setAttribute("class", "btn");
+                    xhr2.onreadystatechange = function () {
+                      if (xhr2.readyState === 4) {
+                        if (xhr2.status === 200) {
+                          var allE = JSON.parse(this.response);
+                          console.log(allE);
 
-for (var i = 0; i < jcontent2.EventName.length; i++) {
-  if(jcontent2.Type[i] === "Public"){
-     var day = document.createElement('div');
-  day.id = "superDay";
-  document.getElementById('superDay').appendChild(day)
-    day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent2.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent2.ID[i] + '\')">' + jcontent2.EventName[i] + '</a><p>' 
-      + jcontent2.EventDescription[i] + '</p></div></div>';
-  }
-}
-}
+                          if(allE['error'] == null){
+                            //day view all
+                              if(category === "all"){
+                                while(document.getElementById('superDay').firstChild){
+                                    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
+                                  }
+                                  document.getElementById("filterAll").setAttribute("class", "btn active");
+                                  document.getElementById("filterPrivate").setAttribute("class", "btn");
+                                  document.getElementById("filterPublic").setAttribute("class", "btn");
+                                  document.getElementById("filterRSO").setAttribute("class", "btn");
+                                  for (var i = 0; i < today['info'].length; i++) {
+                                    var day = document.createElement('div');
+                                    day.id = "superDay";
+                                    document.getElementById('superDay').appendChild(day)
+                                    day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + today['info'][i]['Event_Time'] +
+                                      '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + today['info'][i]['Event_Name'] + '\')">' + today['info'][i]['Event_Name'] + '</a><p>' 
+                                        + today['info'][i]['Desc'] + '</p></div></div>';
+                                  }
+                              }
 
-//all private
-if(category === "public"){
-while(document.getElementById('superAll').firstChild){
-    document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
-  }
-for (var i = 0; i < jcontent3.EventName.length; i++) {
-  if(jcontent3.Type[i] === "Public"){
-  var all = document.createElement('div');
-  all.id = "superAll";
-  document.getElementById('superAll').appendChild(all)
-  all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent3.EventDate[i] + '</time>' + '<time>' + jcontent3.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent3.ID[i] + '\')">' + jcontent3.EventName[i] + '</a><p>' + jcontent3.EventDescription[i] + '</p></div></div>';
-}
-}
-}
+                              //all view all
+                              if(category === "all"){
+                                while(document.getElementById('superAll').firstChild){
+                                    document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
+                                }
+                                for (var i = 0; i < allE['info'].length; i++) {
+                                  var all = document.createElement('div');
+                                  all.id = "superAll";
+                                  document.getElementById('superAll').appendChild(all)
+                                  all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + allE['info'][i]['Event_Date'] + '</time>' + '<time>' + allE['info'][i]['Event_Time'] +
+                                    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + allE['info'][i]['Event_Name'] + '\')">' + allE['info'][i]['Event_Name'] + '</a><p>' + allE['info'][i]['Desc'] + '</p></div></div>';
+                                }
+                              }
 
-//day rso
-if(category === "rso"){
-while(document.getElementById('superDay').firstChild){
-    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
-}
-document.getElementById("filterAll").setAttribute("class", "btn");
-  document.getElementById("filterPrivate").setAttribute("class", "btn");
-  document.getElementById("filterPublic").setAttribute("class", "btn");
-  document.getElementById("filterRSO").setAttribute("class", "btn active");
-for (var i = 0; i < jcontent2.EventName.length; i++) {
-  if(jcontent2.Type[i] === "RSO"){
-    var day = document.createElement('div');
-  day.id = "superDay";
-  document.getElementById('superDay').appendChild(day)
-    day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent2.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent2.ID[i] + '\')">' + jcontent2.EventName[i] + '</a><p>' 
-      + jcontent2.EventDescription[i] + '</p></div></div>';
-  }
-}
-}
+                                //day private
+                                if(category === "private"){
+                                    while(document.getElementById('superDay').firstChild){
+                                      document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
+                                    }
+                                    document.getElementById("filterAll").setAttribute("class", "btn");
+                                    document.getElementById("filterPrivate").setAttribute("class", "btn active");
+                                    document.getElementById("filterPublic").setAttribute("class", "btn");
+                                    document.getElementById("filterRSO").setAttribute("class", "btn");
+                                  for (var i = 0; i < today['info'].length; i++) {
+                                    if(today['info'][i]['Event_Type'] === "Private"){
+                                      var day = document.createElement('div');
+                                      day.id = "superDay";
+                                      document.getElementById('superDay').appendChild(day)
+                                      day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + today['info'][i]['Event_Time'] +
+                                      '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + today['info'][i]['Event_Name'] + '\')">' + today['info'][i]['Event_Name'] + '</a><p>' 
+                                        + today['info'][i]['Desc'] + '</p></div></div>';
+                                    }
+                                  }
+                                }
 
-//all rso
-if(category === "rso"){
-while(document.getElementById('superAll').firstChild){
-    document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
-  }
-for (var i = 0; i < jcontent3.EventName.length; i++) {
-  if(jcontent3.Type[i] === "RSO"){
-  var all = document.createElement('div');
-  all.id = "superAll";
-  document.getElementById('superAll').appendChild(all)
-  all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + jcontent3.EventDate[i] + '</time>' + '<time>' + jcontent3.EventTime[i] +
-    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + jcontent3.ID[i] + '\')">' + jcontent3.EventName[i] + '</a><p>' + jcontent3.EventDescription[i] + '</p></div></div>';
-}
-}
-}
-}
+                                //all private
+                                if(category === "private"){
+                                  while(document.getElementById('superAll').firstChild){
+                                      document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
+                                    }
+                                  for (var i = 0; i < allE['info'].length; i++) {
+                                    if(allE['info'][i]['Event_Type'] === "Private"){
+                                    var all = document.createElement('div');
+                                    all.id = "superAll";
+                                    document.getElementById('superAll').appendChild(all)
+                                    all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + allE['info'][i]['Event_Date'] + '</time>' + '<time>' + allE['info'][i]['Event_Time'] +
+                                      '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + allE['info'][i]['Event_Name'] + '\')">' + allE['info'][i]['Event_Name'] + '</a><p>' + allE['info'][i]['Desc'] + '</p></div></div>';
+                                  }
+                                }
+                              }
 
-function getDataToday(){
-var eventData = {"userID": userID}
-        var jsonSend = JSON.stringify(eventData);
-        console.log('JSON SENDING:' + jsonSend);
+                              //day public
+                              if(category === "public"){
+                                while(document.getElementById('superDay').firstChild){
+                                    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
+                                }
+                                document.getElementById("filterAll").setAttribute("class", "btn");
+                                  document.getElementById("filterPrivate").setAttribute("class", "btn");
+                                  document.getElementById("filterPublic").setAttribute("class", "btn active");
+                                  document.getElementById("filterRSO").setAttribute("class", "btn");
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost/collegewebsite/api/geteventsToday.php', true);
-        xhr.setRequestHeader("Content-Type", "application/json");
+                                for (var i = 0; i < today['info'].length; i++) {
+                                  if(today['info'][i]['Event_Type'] === "Public"){
+                                    var day = document.createElement('div');
+                                    day.id = "superDay";
+                                    document.getElementById('superDay').appendChild(day)
+                                      day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + today['info'][i]['Event_Time'] +
+                                    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + today['info'][i]['Event_Name'] + '\')">' + today['info'][i]['Event_Name'] + '</a><p>' 
+                                      + today['info'][i]['Desc']+ '</p></div></div>';
+                                  }
+                                }
+                              }
 
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              console.log(this.response);
-              console.log(this.responseText);
-            }
-          }
-        };
+                                 //all public
+                                if(category === "public"){
+                                  while(document.getElementById('superAll').firstChild){
+                                      document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
+                                    }
+                                  for (var i = 0; i < allE['info'].length; i++) {
+                                    if(allE['info'][i]['Event_Type'] === "Public"){
+                                    var all = document.createElement('div');
+                                    all.id = "superAll";
+                                    document.getElementById('superAll').appendChild(all)
+                                    all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + allE['info'][i]['Event_Date'] + '</time>' + '<time>' + allE['info'][i]['Event_Time'] +
+                                      '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + allE['info'][i]['Event_Name'] + '\')">' + allE['info'][i]['Event_Name'] + '</a><p>' + allE['info'][i]['Desc'] + '</p></div></div>';
+                                  }
+                                }
+                              }
 
-        xhr.send(jsonSend);  
-}
+                              //day rso
+                              if(category === "rso"){
+                                while(document.getElementById('superDay').firstChild){
+                                    document.getElementById('superDay').removeChild(document.getElementById('superDay').firstChild);
+                                }
+                                document.getElementById("filterAll").setAttribute("class", "btn");
+                                  document.getElementById("filterPrivate").setAttribute("class", "btn");
+                                  document.getElementById("filterPublic").setAttribute("class", "btn");
+                                  document.getElementById("filterRSO").setAttribute("class", "btn active");
+                                for (var i = 0; i < today['info'].length; i++) {
+                                  if(today['info'][i]['Event_Type'] === "RSO"){
+                                    var day = document.createElement('div');
+                                    day.id = "superDay";
+                                    document.getElementById('superDay').appendChild(day)
+                                      day.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + today['info'][i]['Event_Time'] +
+                                    '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + today['info'][i]['Event_Name'] + '\')">' + today['info'][i]['Event_Name'] + '</a><p>' 
+                                      + today['info'][i]['Desc'] + '</p></div></div>';
+                                  }
+                                }
+                              }
 
-function getDataAll(){
-var eventData = {"userID": userID}
-        var jsonSend = JSON.stringify(eventData);
-        console.log('JSON SENDING:' + jsonSend);
+                              //all rso
+                              if(category === "rso"){
+                              while(document.getElementById('superAll').firstChild){
+                                  document.getElementById('superAll').removeChild(document.getElementById('superAll').firstChild);
+                                }
+                              for (var i = 0; i < allE['info'].length; i++) {
+                                if(allE['info'][i]['Event_Type'] === "RSO"){
+                                var all = document.createElement('div');
+                                all.id = "superAll";
+                                document.getElementById('superAll').appendChild(all)
+                                all.innerHTML = '<div class="row schedule-item"><div class="col-md-2"><time>' + allE['info'][i]['Event_Date'] + '</time>' + '<time>' + allE['info'][i]['Event_Time'] +
+                                  '</time></div><div class="col-md-10"><a href="#" onclick="viewEvent(\'' + allE['info'][i]['Event_Name'] + '\')">' + allE['info'][i]['Event_Name'] + '</a><p>' + allE['info'][i]['Desc'] + '</p></div></div>';
+                              }
+                            }
+                          }
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost/collegewebsite/api/geteventsAll.php', true);
-        xhr.setRequestHeader("Content-Type", "application/json");
+                          } else {
+                            var error = document.getElementById("errormsg");
+                            error.innerHTML = all['error'];
+                          }
+                        }
+                      }
+                    };
 
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              console.log(this.response);
-              console.log(this.responseText);
-            }
-          }
-        };
+                    xhr2.send(jsonSend);  
+                  } else {
+                    var error = document.getElementById("errormsg");
+                    error.innerHTML = today['error'];
+                  }
+                }
+              }
+            };
 
-        xhr.send(jsonSend);  
+            xhr.send(jsonSend);  
 }
 
 </script>

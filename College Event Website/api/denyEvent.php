@@ -5,8 +5,7 @@
 
     $inData = getRequestInfo();
     $name = $inData["pendingEvent"];
-    
-	$conn = new mysqli('localhost', 'root', '', 'website');
+    $conn = new mysqli('localhost', 'root', '', 'website');
 
     if ($conn->connect_error) 
     {
@@ -14,7 +13,7 @@
     }
     else
     {
-        $sql = "DELETE FROM pending_events WHERE Event_Name = '" . $name . "'";
+        $sql = "DELETE FROM pending_events where Event_Name = '" . $name . "'";
         $result = $conn->query($sql);
 
         if($result != TRUE)

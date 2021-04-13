@@ -13,7 +13,7 @@
     }
     else
     {
-        $sql = "DELETE  FROM pending_RSO where rso_name = '" . $rso . "'";
+        $sql = "DELETE FROM pending_RSO where rso_name = '" . $rso . "'";
         $result = $conn->query($sql);
 
         if($result != TRUE)
