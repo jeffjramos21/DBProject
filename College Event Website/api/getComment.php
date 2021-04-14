@@ -18,15 +18,25 @@
     }
 
     else
-    {  
-        $sql = "SELECT Event_Type FROM public_events where Event_Name = '" . $eventNameVar . "'";
+    {           $sql = "SELECT Event_Type 
+                FROM public_events 
+                where Event_Name = '" . $eventNameVar . "'
+                UNION ALL
+                SELECT Event_Type
+                FROM private_events
+                where Event_Name = '".$eventNameVar."'
+                UNION ALL
+                SELECT Event_Type
+                FROM rso_events
+                WHERE Event_Name = '".$eventNameVar."'
+                ";
+                 
         $result = $conn->query($sql);
         
         if($result->num_rows > 0 || $result->num_rows <= 0)
         {
             $row = $result->fetch_assoc();
             $eventType = $row["Event_Type"];
-            //echo($eventType);
 
             if($eventType == $public)
             {
@@ -59,10 +69,10 @@
                 }
                 else
                 {
-                    returnWithError("No Commments in public!");
+                    returnWithError("No Comments yet!");
                 }
             }
-            else
+            else if($eventType == $private)
             {
                 $sql3 = "SELECT User_ID,Name,text,rating,date FROM private_event_comments where Event_Name = '" . $eventNameVar . "'";
                 $result3 = $conn->query($sql3);
@@ -73,13 +83,12 @@
                     while($searchCount > 0)
                     {
                         $row = $result3->fetch_assoc();
-                        $thisComment = '{"User_ID":' . $row["User_ID"] . '",
+                        $thisComment = '{"User_ID":"' . $row["User_ID"] . '",
                                         "name":"' . $row["Name"] . '", 
                                         "text":"' . $row["text"] . '",
                                         "rating":"' . $row["rating"] . '",
                                         "date":"' . $row["date"] . '"
                                         }';
-                        //echo("?????");
                         $searchResults .= $thisComment;
     
                         if($searchCount > 1)
@@ -93,7 +102,39 @@
                 }
                 else
                 {
-                    returnWithError("No Commments in private!");
+                    returnWithError("No Comments yet!");
+                }
+            }
+            else
+            {
+                $sql3 = "SELECT User_ID,Name,text,rating,date FROM rso_event_comments where Event_Name = '" . $eventNameVar . "'";
+                $result3 = $conn->query($sql3);
+                $searchCount = $result3->num_rows;
+                if($searchCount > 0)
+                {
+                    while($searchCount > 0)
+                    {
+                        $row = $result3->fetch_assoc();
+                        $thisComment = '{"User_ID":"' . $row["User_ID"] . '",
+                                        "name":"' . $row["Name"] . '", 
+                                        "text":"' . $row["text"] . '",
+                                        "rating":"' . $row["rating"] . '",
+                                        "date":"' . $row["date"] . '"
+                                        }';
+                        $searchResults .= $thisComment;
+    
+                        if($searchCount > 1)
+                        {
+                            $searchResults .= ",";
+                        }
+    
+                        $searchCount--;
+                    }
+                    returnWithInfo($searchResults);
+                }
+                else
+                {
+                    returnWithError("No Comments yet!");
                 }
             }
         }

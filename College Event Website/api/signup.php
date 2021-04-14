@@ -2,6 +2,7 @@
    header("Access-Control-Allow-Origin: *");
    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Requested-With");
+   date_default_timezone_set('America/New_York');
 
    // Register a user.
    $inData = getRequestInfo();
@@ -11,6 +12,8 @@
    $university = $inData['university'];
    $email = $inData['email'];
    $password = $inData['password'];
+
+   //$datelaston= getdate(YYYY/MM/DD);
 
    // hash password
    $password = password_hash($password, PASSWORD_DEFAULT);
@@ -29,22 +32,23 @@
       $sql = "INSERT INTO users(first,last,university,User_ID,email,password) VALUES ('" . $first . "','" . $last . "','" . $university . "','" . $User_ID . "','" . $email . "','" . $password . "')";
       $result = $conn->query($sql);
 
-      //////////////////////////////////////////////////////////////
-      // NEED TO FIGURE OUT HOW TO ADD UNIVERSITY ID WITH STUDENT ID
-      //////////////////////////////////////////////////////////////
-      /*
-         $studentAttends = "INSERT INTO student = 
-      */
-      
-	  // check if records are inserted
       if($result != TRUE)
 		{
-			returnWithInfo("ID is already taken!");
-		}
+			returnWithError("Email address is already taken!");
+      }
       
       else 
-      {
-         returnWithInfo("we did it!");
+      {  
+         $sql2 = "INSERT INTO student_attends (Uni_Name,User_ID) VALUES ('" . $university . "','" . $User_ID . "')";
+         $result2 = $conn->query($sql2);
+         if($result2 != TRUE)
+         {
+            returnWithError("user ID belongs to someone else!");
+         }
+         else
+         {
+            returnWithInfo("we did it!");
+         }
       }
 
 		$conn->close();
@@ -61,6 +65,11 @@
       echo $obj;
    }
 
+   function returnWithError($err)
+   {
+      $retValue = '{"error":"' . $err . '"}';
+      sendResultInfoAsJson($retValue);
+   }
 
    function returnWithInfo($info)
    {

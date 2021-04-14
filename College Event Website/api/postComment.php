@@ -30,7 +30,18 @@
          $date = $row["datelaston"];
          $name = "$first $last";
         
-         $sql2 = "SELECT Event_Type FROM public_events where Event_Name = '" . $eventName . "';"; 
+         $sql2 = "SELECT Event_Type 
+                  FROM public_events 
+                  where Event_Name = '" . $eventName . "'
+                  UNION ALL
+                  SELECT Event_Type 
+                  FROM private_events 
+                  where Event_Name = '" . $eventName . "'
+                  UNION ALL
+                  SELECT Event_Type 
+                  FROM rso_events 
+                  where Event_Name = '" . $eventName . "'
+                  "; 
          //$sql2 .= "SELECT Event_Type FROM private_events where Event_Name = '" . $eventName . "'";
          $result2 = $conn->query($sql2);
          
@@ -53,7 +64,7 @@
                   returnWithInfo("Comment added successfully!");
                }
             }
-            else if($eventType != $public)
+            else if($eventType == $private)
             {
                $sql4 = "INSERT INTO private_event_comments(User_ID,Event_Name,Name,text,rating,date) VALUES ('".$userID."','".$eventName."','".$name."','".$comment."','".$rating."','".$date."')";
                $result4 = $conn->query($sql4);
@@ -61,6 +72,20 @@
                if($result4 != TRUE)
                {
                   returnWithError("Comment not entered for private event!");
+               }
+               else
+               {
+                  returnWithInfo("Comment added successfully!");
+               }
+            }
+            else
+            {
+               $sql4 = "INSERT INTO rso_event_comments(User_ID,Event_Name,Name,text,rating,date) VALUES ('".$userID."','".$eventName."','".$name."','".$comment."','".$rating."','".$date."')";
+               $result4 = $conn->query($sql4);
+
+               if($result4 != TRUE)
+               {
+                  returnWithError("Comment not entered for rso event!");
                }
                else
                {

@@ -61,7 +61,6 @@
     <!-- ======= View Specific Event Section ======= -->
     <section id="viewAnEvent" class="section-with-bg">
         <div class="container">
-            <div id="errormsg"></div>
             <div id="viewEvent">
                 
 
@@ -74,6 +73,7 @@
     <section id="testcomment">
         <div class="container">
             <h2>Comments and Ratings</h2>
+            <div id="errormsg"></div>
             <div class="card" id="loadComments">
                 <!-- Comments get loaded here-->
             </div>
@@ -172,6 +172,7 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
+                        console.log(this.response);
                         var comment = JSON.parse(this.response);
                         console.log(comment);
                         if(comment['error'] == null){
@@ -194,7 +195,7 @@
                                     '<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">' +
                                     '<div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header">' +
                                     '<h5 class="modal-title" id="editModalLongTitle">Edit Comment</h5></div><div class="modal-body"><div id="editcommentsuccess"></div>' +
-                                    '<div class="stars"><input class="star star-5" id="editstar-5" type="radio" name="editStar value="5" /><label class="star star-5" for="editstar-5"></label>' +
+                                    '<div class="stars"><input class="star star-5" id="editstar-5" type="radio" name="editStar value="5" /><label class="editStar star-5" for="editstar-5"></label>' +
                                     '<input class="star star-4" id="editstar-4" type="radio" name="editStar" value="4"/><label class="star star-4" for="editstar-4"></label><input class="star star-3" id="editstar-3" type="radio" name="editStar" value="3"/>' +
                                     '<label class="star star-3" for="editstar-3"></label><input class="star star-2" id="editstar-2" type="radio" name="editStar" value="2"/><label class="star star-2" for="editstar-2"></label>' +
                                     '<input class="star star-1" id="editstar-1" type="radio" name="editStar" value="1"/><label class="star star-1" for="editstar-1"></label></div>' +
@@ -264,11 +265,13 @@
         function editCommentSaved(commentID){
             var comment = document.getElementById("editcommentarea").value;
             var rating = document.getElementsByName("editStar");
+
             for (var i = 0; i < rating.length; i++) {
                 if (rating[i].checked) {
                     var ratingValue = rating[i].value;
                 }
             }
+            console.log(rating.length);
 
             var commentData = {"userID": userID, "eventName": clickedID, "comment": comment, "rating": ratingValue};
             var jsonSend = JSON.stringify(commentData);
@@ -293,7 +296,7 @@
         }        
 
         function removeCommentConfirmed(){
-            var removeComment = {"userID": userID, "eventID": clickedID};
+            var removeComment = {"userID": userID, "eventName": clickedID};
             var jsonSend = JSON.stringify(removeComment);
             console.log('JSON SENDING:' + jsonSend);
 

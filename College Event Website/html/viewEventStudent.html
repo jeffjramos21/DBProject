@@ -191,7 +191,7 @@
                                     '<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">' +
                                     '<div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header">' +
                                     '<h5 class="modal-title" id="editModalLongTitle">Edit Comment</h5></div><div class="modal-body"><div id="editcommentsuccess"></div>' +
-                                    '<div class="stars"><input class="star star-5" id="editstar-5" type="radio" name="editStar value="5" /><label class="star star-5" for="editstar-5"></label>' +
+                                    '<div class="stars"><input class="star star-5" id="editstar-5" type="radio" name="editStar value="5" /><label class="editStar star-5" for="editstar-5"></label>' +
                                     '<input class="star star-4" id="editstar-4" type="radio" name="editStar" value="4"/><label class="star star-4" for="editstar-4"></label><input class="star star-3" id="editstar-3" type="radio" name="editStar" value="3"/>' +
                                     '<label class="star star-3" for="editstar-3"></label><input class="star star-2" id="editstar-2" type="radio" name="editStar" value="2"/><label class="star star-2" for="editstar-2"></label>' +
                                     '<input class="star star-1" id="editstar-1" type="radio" name="editStar" value="1"/><label class="star star-1" for="editstar-1"></label></div>' +
@@ -290,7 +290,7 @@
         }        
 
         function removeCommentConfirmed(){
-            var removeComment = {"userID": userID, "eventID": clickedID};
+            var removeComment = {"userID": userID, "eventName": clickedID};
             var jsonSend = JSON.stringify(removeComment);
             console.log('JSON SENDING:' + jsonSend);
 

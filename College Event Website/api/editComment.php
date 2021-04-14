@@ -26,7 +26,19 @@
             $row = $result0->fetch_assoc();
             $date = $row["datelaston"];
         
-            $sql = "SELECT Event_Type FROM public_events where Event_name = '".$eventNameVar."'";
+            $sql = "SELECT Event_Type 
+                    FROM public_events 
+                    where Event_Name = '" . $eventNameVar . "'
+                    UNION ALL
+                    SELECT Event_Type
+                    FROM private_events
+                    where Event_Name = '".$eventNameVar."'
+                    UNION ALL
+                    SELECT Event_Type
+                    FROM rso_events
+                    WHERE Event_Name = '".$eventNameVar."'
+                    ";
+                 
             $result = $conn->query($sql);
 
             if($result->num_rows > 0 || $result->num_rows <= 0)
@@ -50,9 +62,23 @@
                         returnWithInfo("comment updated!");
                     }
                 }
-                else
+                else if($eventType == $private)
                 {
                     $sql3 = "UPDATE private_event_comments SET text= '".$comment."', rating = '".$rating."', date = '".$date."' where User_ID = '".$userID."'";
+                    $result3 = $conn->query($sql3);
+                    if($result3 != TRUE)
+                    {
+                        returnWithError("rating and comment not changed in private");
+                    }
+
+                    else
+                    {
+                        returnWithInfo("comment updated!");
+                    }
+                }
+                else
+                {
+                    $sql3 = "UPDATE rso_event_comments SET text= '".$comment."', rating = '".$rating."', date = '".$date."' where User_ID = '".$userID."'";
                     $result3 = $conn->query($sql3);
                     if($result3 != TRUE)
                     {

@@ -5,6 +5,7 @@
     
     $inData = getRequestInfo();
     $public = "Public";
+    $private = "Private";
     $eventNameVar = $inData["eventName"];
     $userID = $inData['userID'];
 
@@ -17,14 +18,25 @@
 
     else
     {
-        $sql = "SELECT Event_Type FROM public_events where Event_Name = '" . $eventNameVar . "'";
+        $sql = "SELECT Event_Type 
+                FROM public_events 
+                where Event_Name = '" . $eventNameVar . "'
+                UNION ALL
+                SELECT Event_Type
+                FROM private_events
+                where Event_Name = '".$eventNameVar."'
+                UNION ALL
+                SELECT Event_Type
+                FROM rso_events
+                WHERE Event_Name = '".$eventNameVar."'
+                ";
+         
         $result = $conn->query($sql);
         
         if($result->num_rows > 0 || $result->num_rows <= 0)
         {
             $row = $result->fetch_assoc();
             $eventType = $row["Event_Type"];
-            //echo($eventType);
 
             if($eventType == $public)
             {
@@ -39,9 +51,22 @@
                     returnWithInfo("public Comment successfully DELETED");
                 }
             }
-            else
+            else if($eventType == $private)
             {
                 $sql1 = "DELETE FROM private_event_comments where User_ID = '".$userID."'";
+                $result1 = $conn->query($sql1);
+                if($result1 != TRUE)
+                {
+                    returnWithError("private Comment not deleted!");
+                }
+                else
+                {
+                    returnWithInfo("private Comment successfully DELETED");
+                }
+            }
+            else
+            {
+                $sql1 = "DELETE FROM rso_event_comments where User_ID = '".$userID."'";
                 $result1 = $conn->query($sql1);
                 if($result1 != TRUE)
                 {
