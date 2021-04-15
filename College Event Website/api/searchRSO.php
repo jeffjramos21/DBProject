@@ -6,6 +6,7 @@
     $inData = getRequestInfo();
     $searchCount = 0;
     $searchResults = "";
+    $userID = $inData['userID'];
 
     $conn = new mysqli('localhost', 'root', '', 'website');
 
@@ -13,32 +14,42 @@
     {
        returnWithError("Connection Failed.");
     }
+
     else
     {
-        $sql = "SELECT RSO_Name FROM rsos";
-        $result = $conn->query($sql);
-        $searchCount = $conn->query($sql)->num_rows;
-
-        if($searchCount > 0)
-        {
-            while($searchCount > 0)
+            $sql = "SELECT Uni_Name from student_attends where User_ID = '".$userID."'";
+            $result = $conn->query($sql);
+            if($result->num_rows > 0)
             {
                 $row = $result->fetch_assoc();
-                $thisRSO = '{"RSO":"' . $row["RSO_Name"] . '"}';
-                $searchResults .= $thisRSO;
+                $uni = $row["Uni_Name"];
+                
+                $sql = "SELECT RSO_Name FROM rsos where Uni_Name = '".$uni."'";
+                $result = $conn->query($sql);
+                $searchCount = $conn->query($sql)->num_rows;
 
-                if($searchCount > 1)
+                if($searchCount > 0)
                 {
-                    $searchResults .= ",";
-                }
+                    while($searchCount > 0)
+                    {
+                        $row = $result->fetch_assoc();
+                        $thisRSO = '{"RSO":"' . $row["RSO_Name"] . '"}';
+                   
+                        $searchResults .= $thisRSO;
+               
+                        if($searchCount > 1)
+                        {
+                            $searchResults .= ",";
+                        }
 
-                $searchCount--;
-            }
-            returnWithInfo($searchResults);
-        }
-        else
-        {
-            returnWithError("No RSO's!");
+                        $searchCount--;
+                    }
+                    returnWithInfo($searchResults);
+                }
+                else
+                {
+                    returnWithError("No RSO's!");
+                }
         }
     }
 
@@ -64,4 +75,5 @@
         $retValue = '{"results":[' . $searchResults . ']}';
         sendResultInfoAsJson($retValue);
     }
+
 ?>
